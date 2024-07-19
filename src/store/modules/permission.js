@@ -5,6 +5,7 @@ import Layout from '@/layout/index'
 import ParentView from '@/components/ParentView'
 import InnerLink from '@/layout/components/InnerLink'
 
+import { routeResponse } from '@/utils/mockData'
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../../views/**/*.vue')
 
@@ -50,6 +51,17 @@ const usePermissionStore = defineStore(
             this.setTopbarRoutes(defaultRoutes)
             resolve(rewriteRoutes)
           })
+        })
+      },
+      generateRoutesStatic(roles) {
+        return new Promise(resolve => {
+            const asyncRoutes = filterAsyncRouter(dynamicRoutes)
+            asyncRoutes.forEach(route => { router.addRoute(route) })
+            this.setRoutes(asyncRoutes)
+            this.setSidebarRouters(constantRoutes.concat(asyncRoutes))
+            this.setDefaultRoutes(asyncRoutes)
+            this.setTopbarRoutes(asyncRoutes)
+            resolve(asyncRoutes)
         })
       }
     }
