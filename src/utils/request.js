@@ -27,7 +27,7 @@ service.interceptors.request.use(config => {
     // 是否需要防止数据重复提交
     const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
     if (getToken() && !isToken) {
-        config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     // get请求映射params参数
     if (config.method === 'get' && config.params) {
@@ -81,31 +81,8 @@ service.interceptors.response.use(res => {
     if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
         return res.data
     }
-    if (code === 401) {
-        if (!isRelogin.show) {
-            isRelogin.show = true;
-            // ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
-            //     isRelogin.show = false;
-            //     useUserStore().logOut().then(() => {
-            //         location.href = '/index';
-            //     })
-            // }).catch(() => {
-            //     isRelogin.show = false;
-            // });
-        }
-        return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
-    } else if (code === 500) {
-        ElMessage({ message: msg, type: 'error' })
-        return Promise.reject(new Error(msg))
-    } else if (code === 601) {
-        ElMessage({ message: msg, type: 'warning' })
-        return Promise.reject(new Error(msg))
-    } else if (code !== 200) {
-        ElNotification.error({ title: msg })
-        return Promise.reject('error')
-    } else {
-        return Promise.resolve(res.data)
-    }
+    // 处理状态码
+    codeJudge(code, msg, res)
 },
     error => {
         console.log('err' + error)
@@ -118,9 +95,43 @@ service.interceptors.response.use(res => {
             message = "系统接口" + message.substr(message.length - 3) + "异常";
         }
         ElMessage({ message: message, type: 'error', duration: 5 * 1000 })
+
+        const { response } = error
+        const { code, msg } = response.data || {}
+        codeJudge(code, msg) // 处理状态码
+
         return Promise.reject(error)
     }
 )
+
+function codeJudge(code, message, res) {
+    if (code === 401) {
+        if (!isRelogin.show) {
+            isRelogin.show = true;
+            ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
+                isRelogin.show = false;
+                useUserStore().clearToken().then(() => {
+                    const base = import.meta.env.VITE_APP_BASE_URL
+                    location.href = base + 'login'
+                })
+            }).catch(() => {
+                isRelogin.show = false;
+            });
+        }
+        // return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+    } else if (code === 500) {
+        ElMessage({ message: msg, type: 'error' })
+        return Promise.reject(new Error(msg))
+    } else if (code === 601) {
+        ElMessage({ message: msg, type: 'warning' })
+        return Promise.reject(new Error(msg))
+    } else if (code !== 200) {
+        ElNotification.error({ title: msg })
+        return Promise.reject('error')
+    } else {
+        return Promise.resolve(res.data)
+    }
+}
 
 // 通用下载方法
 export function download(url, params, filename, config) {

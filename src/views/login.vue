@@ -8,12 +8,12 @@
                 </el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input v-model="loginForm.password" type="password" size="large" auto-complete="off" placeholder="密码"
+                <el-input v-model="loginForm.password" type="password" size="large" show-password auto-complete="off" placeholder="密码"
                     @keyup.enter="handleLogin">
                     <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
                 </el-input>
             </el-form-item>
-            <el-form-item prop="code" v-if="captchaEnabled">
+            <!-- <el-form-item prop="code" v-if="captchaEnabled">
                 <el-input v-model="loginForm.code" size="large" auto-complete="off" placeholder="验证码" style="width: 63%"
                     @keyup.enter="handleLogin">
                     <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
@@ -21,7 +21,7 @@
                 <div class="login-code">
                     <img :src="codeUrl" @click="getCode" class="login-code-img" />
                 </div>
-            </el-form-item>
+            </el-form-item> -->
             <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
             <el-form-item style="width:100%;">
                 <el-button :loading="loading" size="large" type="primary" style="width:100%;"
@@ -36,7 +36,7 @@
         </el-form>
         <!--  底部  -->
         <div class="el-login-footer">
-            <span>Copyright © 2018-2024 ruoyi.vip All Rights Reserved.</span>
+            <!-- <span>Copyright © 2018-2024 ruoyi.vip All Rights Reserved.</span> -->
         </div>
     </div>
 </template>
@@ -57,10 +57,10 @@ const { proxy } = getCurrentInstance();
 
 const loginForm = ref({
     username: "admin",
-    password: "admin123",
+    password: "123456",
     rememberMe: false,
-    code: "",
-    uuid: ""
+    // code: "",
+    // uuid: ""
 });
 
 const loginRules = {
@@ -82,8 +82,6 @@ watch(route, (newRoute) => {
 }, { immediate: true });
 
 function handleLogin() {
-    router.push({ path: "/index" });
-    return
     proxy.$refs.loginRef.validate(valid => {
         if (valid) {
             loading.value = true;
@@ -98,6 +96,7 @@ function handleLogin() {
                 Cookies.remove("password");
                 Cookies.remove("rememberMe");
             }
+
             // 调用action的登录方法
             userStore.login(loginForm.value).then(() => {
                 const query = route.query;
@@ -111,9 +110,9 @@ function handleLogin() {
             }).catch(() => {
                 loading.value = false;
                 // 重新获取验证码
-                if (captchaEnabled.value) {
-                    getCode();
-                }
+                // if (captchaEnabled.value) {
+                //     getCode();
+                // }
             });
         }
     });
@@ -140,7 +139,7 @@ function getCookie() {
     };
 }
 
-getCode();
+// getCode();
 getCookie();
 </script>
 

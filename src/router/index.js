@@ -24,6 +24,19 @@ import Layout from '@/layout'
   }
  */
 
+// 根路由404配置
+const rootRoutePage404 = [
+  {
+    path: '/404',
+    component: () => import('@/views/error/404'),
+    hidden: true,
+  },
+  {
+    path: '/:pathMatch(.*)',
+    redirect: '/404',
+  },
+]
+
 // 公共路由
 export const constantRoutes = [
     {
@@ -45,11 +58,6 @@ export const constantRoutes = [
     {
         path: '/register',
         component: () => import('@/views/register'),
-        hidden: true
-    },
-    {
-        path: "/:pathMatch(.*)*",
-        component: () => import('@/views/error/404'),
         hidden: true
     },
     {
@@ -96,6 +104,7 @@ export const constantRoutes = [
             }
         ]
     },
+    ...rootRoutePage404
 ]
 
 // 动态路由，基于用户权限动态去加载
