@@ -104,6 +104,18 @@ export const constantRoutes = [
             }
         ]
     },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/partners',
+                component: () => import('@/views/partners/partners.vue'),
+                name: 'Partners',
+                meta: { title: '合作机构', icon: 'system' }
+            }
+        ]
+    },
     ...rootRoutePage404
 ]
 
@@ -127,7 +139,7 @@ export const dynamicRoutes = [
         path: '/system/role-auth',
         component: Layout,
         hidden: true,
-        permissions: ['system:role:edit'],
+        // permissions: ['system:role:edit'],
         children: [
             {
                 path: 'user/:roleId(\\d+)',

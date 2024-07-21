@@ -82,7 +82,7 @@ service.interceptors.response.use(res => {
         return res.data
     }
     // 处理状态码
-    codeJudge(code, msg, res)
+    return codeJudge(code, msg, res)
 },
     error => {
         console.log('err' + error)

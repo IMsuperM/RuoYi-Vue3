@@ -10,6 +10,7 @@ export function login(username, password) {
     }
     return request({
         url: `${BASE_URL}/realm/login`,
+        //  url: '/users/test',
         headers: {
             isToken: false,
             repeatSubmit: false

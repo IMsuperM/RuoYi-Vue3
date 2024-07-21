@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import createVitePlugins from './vite/plugins'
-
+import mkcert from "vite-plugin-mkcert";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
     const env = loadEnv(mode, process.cwd())
@@ -29,12 +29,12 @@ export default defineConfig(({ mode, command }) => {
         server: {
             port: 80,
             host: true,
-            open: true,
+            // open: true, // 自动在浏览器中打开应用程序
             proxy: {
                 // https://cn.vitejs.dev/config/#server-proxy
-                // http://4473-101-71-199-19.ngrok-free.app
                 '/api': {
                     target: 'http://4473-101-71-199-19.ngrok-free.app',
+                    //  target: 'https://sumperm.com/koa2',
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, ""),
                 },
