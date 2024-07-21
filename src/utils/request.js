@@ -76,7 +76,7 @@ service.interceptors.response.use(res => {
     // 未设置状态码则默认成功状态
     const code = res.data.code || 200;
     // 获取错误信息
-    const msg = errorCode[code] || res.data.msg || errorCode['default']
+    const msg = errorCode[code] || res.data.msg || res.message || errorCode['default']
     // 二进制数据则直接返回
     if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
         return res.data
@@ -104,7 +104,7 @@ service.interceptors.response.use(res => {
     }
 )
 
-function codeJudge(code, message, res) {
+function codeJudge(code, msg, res) {
     if (code === 401) {
         if (!isRelogin.show) {
             isRelogin.show = true;

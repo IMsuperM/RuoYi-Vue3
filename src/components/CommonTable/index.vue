@@ -20,7 +20,6 @@
   </el-table>
 </template>
 <script setup name="CommonTable">
-import { onMounted, defineEmits } from 'vue'
 const { proxy } = getCurrentInstance()
   const props = defineProps({
     // 表头数据

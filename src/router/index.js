@@ -97,18 +97,6 @@ export const constantRoutes = [
         component: Layout,
         children: [
             {
-                path: '/test',
-                component: () => import('@/views/test.vue'),
-                name: 'test',
-                meta: { title: 'test', icon: 'system' }
-            }
-        ]
-    },
-    {
-        path: '',
-        component: Layout,
-        children: [
-            {
                 path: '/partners',
                 component: () => import('@/views/partners/partners.vue'),
                 name: 'Partners',
