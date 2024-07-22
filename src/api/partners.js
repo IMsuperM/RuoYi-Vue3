@@ -45,3 +45,20 @@ export function queryPartnerList(params) {
         data: params
     })
 }
+
+// 合作机构 相关字典
+export function getDictionary(type) {
+    const dictionaryMap = {
+        country: '/pp-risk/manage/constant/country/enum', // 国家
+        riskResult: '/pp-risk/manage/constant/risk-result/enum', // 风控结果
+        riskType: '/pp-risk/manage/constant/risk-type/enum', // 风控类型
+        riskOrderStatus: '/pp-risk/manage/constant/risk-order-status/enum', // 风控订单状态
+        partner: '/pp-risk/manage/constant/partner/list', // 合作方列表
+    }
+    const url = dictionaryMap[type]
+    return request({
+        url: `${BASE_URL}${url}`,
+        method: 'post',
+        data: {}
+    })
+}
