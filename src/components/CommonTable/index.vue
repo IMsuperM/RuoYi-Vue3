@@ -11,11 +11,14 @@
         </div>
       </template> -->
     </el-table-column>
-    <!-- <el-table-column v-if="hasOperation" label="操作" fixed="right" :align="textAlign" :width="operationWidth">
-      <template slot-scope="scope">
-        <slot name="operation" :scope="scope" />
-      </template>
-    </el-table-column> -->
+    <el-table-column v-if="hasOperation" label="操作" fixed="right" :align="textAlign" :width="operationWidth">
+        <el-col :span="1.5">
+            <el-button type="success" plain icon="Edit" @click="handleUpdate">修改</el-button>
+        </el-col>
+        <el-col :span="1.5">
+            <el-button type="danger" plain icon="Delete" @click="handleDelete">删除</el-button>
+        </el-col>
+    </el-table-column>
 
   </el-table>
 </template>

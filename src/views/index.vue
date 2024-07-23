@@ -6,7 +6,7 @@
 
 <script setup name="Index">
 const version = ref('3.8.8')
-
+var a = 123
 function goTarget(url) {
   window.open(url, '__blank')
 }
