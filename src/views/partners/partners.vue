@@ -1,11 +1,54 @@
 <template>
     <div class="app-container">
         <!-- 表格搜索 -->
-        <table-header-search :query-params="queryTableParams" @handle-query="handleQuery" />
+        <table-header-search :query-params="queryTableParams" @handle-query="handleQuery" @handle-add="handleAdd" />
         <!-- 表格数据 -->
         <common-table :data="partnersList" :tableHeader="tableHeader" :border="true" />
 
         <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
+
+        <!-- 添加或修改角色配置对话框 -->
+        <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+            <!-- <el-form ref="roleRef" :model="form" :rules="rules" label-width="200px">
+                <el-form-item label="角色名称" prop="roleName">
+                    <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+                </el-form-item>
+                <el-form-item prop="roleKey">
+                    <template #label>
+                        <span>
+                            <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasRole('admin')`)" placement="top">
+                                <el-icon><question-filled /></el-icon>
+                            </el-tooltip>
+                            权限字符
+                        </span>
+                    </template>
+                    <el-input v-model="form.roleKey" placeholder="请输入权限字符" />
+                </el-form-item>
+                <el-form-item label="角色顺序" prop="roleSort">
+                    <el-input-number v-model="form.roleSort" controls-position="right" :min="0" />
+                </el-form-item>
+                <el-form-item label="状态">
+                    <el-radio-group v-model="form.status">
+                        <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="菜单权限">
+                    <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
+                    <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
+                    <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
+                    <el-tree class="tree-border" :data="menuOptions" show-checkbox ref="menuRef" node-key="id" :check-strictly="!form.menuCheckStrictly" empty-text="加载中，请稍候" :props="{ label: 'label', children: 'children' }"></el-tree>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+                </el-form-item>
+            </el-form> -->
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button type="primary" @click="submitForm">确 定</el-button>
+                    <el-button @click="cancel">取 消</el-button>
+                </div>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
@@ -27,16 +70,19 @@
     const queryTableParams = ref(getPartnersCellData().filter((field) => field.queryParameters))
     console.log('tableHeader:', tableHeader, queryTableParams)
     const queryParams = reactive({ pageNum: 1, pageSize: 10 })
+    const open = ref(false)
+    const title = ref('')
+    const addTableParams = ref(getPartnersCellData().filter((field) => field.addFlg))
+
 
     const roleList = ref([])
-    const open = ref(false)
+
     const loading = ref(true)
     const showSearch = ref(true)
     const ids = ref([])
     const single = ref(true)
     const multiple = ref(true)
     const total = ref(0)
-    const title = ref('')
     const dateRange = ref([])
     const menuOptions = ref([])
     const menuExpand = ref(false)
@@ -79,7 +125,7 @@
     /** 查询列表 */
     function getPartnersList() {
         loading.value = true
-        queryPartnerList(queryParams.value).then((response) => {
+        queryPartnerList(queryParams).then((response) => {
             //   tableData(response.data.list)
             partnersList.value = response.data.list
             console.log('queryPartnerList ~ partnersList.value:', partnersList.value)
@@ -114,6 +160,27 @@
         console.log('Object.keys ~ partnersList:', partnersList)
     }
 
+    /** 添加 */
+    function handleAdd() {
+        // reset()
+        // getMenuTreeselect()
+        // open.value = true
+        // title.value = '添加角色'
+        open.value = true
+        title.value = '新增'
+        console.log('handleAdd 子组件触发')
+    }
+
+    // 修改
+    function handleUpdate(row) {
+        console.log('handleUpdate ~ row:', row)
+    }
+
+    // 删除
+    function handleDelete(row) {
+        console.log('handleDelete ~ row:', row)
+    }
+
     /** 查询角色列表 */
     function getList() {
         return
@@ -132,20 +199,20 @@
         handleQuery()
     }
 
-    /** 删除按钮操作 */
-    function handleDelete(row) {
-        const roleIds = row.roleId || ids.value
-        proxy.$modal
-            .confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?')
-            .then(function () {
-                return delRole(roleIds)
-            })
-            .then(() => {
-                getList()
-                proxy.$modal.msgSuccess('删除成功')
-            })
-            .catch(() => {})
-    }
+    // /** 删除按钮操作 */
+    // function handleDelete(row) {
+    //     const roleIds = row.roleId || ids.value
+    //     proxy.$modal
+    //         .confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?')
+    //         .then(function () {
+    //             return delRole(roleIds)
+    //         })
+    //         .then(() => {
+    //             getList()
+    //             proxy.$modal.msgSuccess('删除成功')
+    //         })
+    //         .catch(() => {})
+    // }
 
     /** 导出按钮操作 */
     function handleExport() {
@@ -241,36 +308,28 @@
         proxy.resetForm('roleRef')
     }
 
-    /** 添加角色 */
-    function handleAdd() {
-        reset()
-        getMenuTreeselect()
-        open.value = true
-        title.value = '添加角色'
-    }
-
     /** 修改角色 */
-    function handleUpdate(row) {
-        reset()
-        const roleId = row.roleId || ids.value
-        const roleMenu = getRoleMenuTreeselect(roleId)
-        getRole(roleId).then((response) => {
-            form.value = response.data
-            form.value.roleSort = Number(form.value.roleSort)
-            open.value = true
-            nextTick(() => {
-                roleMenu.then((res) => {
-                    let checkedKeys = res.checkedKeys
-                    checkedKeys.forEach((v) => {
-                        nextTick(() => {
-                            menuRef.value.setChecked(v, true, false)
-                        })
-                    })
-                })
-            })
-            title.value = '修改角色'
-        })
-    }
+    // function handleUpdate(row) {
+    //     reset()
+    //     const roleId = row.roleId || ids.value
+    //     const roleMenu = getRoleMenuTreeselect(roleId)
+    //     getRole(roleId).then((response) => {
+    //         form.value = response.data
+    //         form.value.roleSort = Number(form.value.roleSort)
+    //         open.value = true
+    //         nextTick(() => {
+    //             roleMenu.then((res) => {
+    //                 let checkedKeys = res.checkedKeys
+    //                 checkedKeys.forEach((v) => {
+    //                     nextTick(() => {
+    //                         menuRef.value.setChecked(v, true, false)
+    //                     })
+    //                 })
+    //             })
+    //         })
+    //         title.value = '修改角色'
+    //     })
+    // }
 
     /** 根据角色ID查询菜单树结构 */
     function getRoleMenuTreeselect(roleId) {
@@ -406,5 +465,5 @@
     }
 
     // getList();
-      getPartnersList()
+    getPartnersList()
 </script>

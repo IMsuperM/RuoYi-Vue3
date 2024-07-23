@@ -9,11 +9,11 @@ import createEslintPlugin from './vite-plugin-eslint'
 
 export default function createVitePlugins(viteEnv, isBuild = false) {
     const vitePlugins = [vue()]
+    // vitePlugins.push(createEslintPlugin())
     vitePlugins.push(createAutoImport())
 	vitePlugins.push(createSetupExtend())
     vitePlugins.push(createSvgIcon(isBuild))
     vitePlugins.push(createMkcert())
-    vitePlugins.push(createEslintPlugin())
 	isBuild && vitePlugins.push(...createCompression(viteEnv))
     return vitePlugins
 }

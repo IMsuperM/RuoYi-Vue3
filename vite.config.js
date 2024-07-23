@@ -33,7 +33,7 @@ export default defineConfig(({ mode, command }) => {
             proxy: {
                 // https://cn.vitejs.dev/config/#server-proxy
                 '/api': {
-                    target: 'http://4473-101-71-199-19.ngrok-free.app',
+                    target: 'https://cbc3-183-159-23-76.ngrok-free.app',
                     //  target: 'https://sumperm.com/koa2',
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, ""),
