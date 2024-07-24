@@ -25,7 +25,7 @@ module.exports = {
 	// jsx 标签的反尖括号需要换行
 	jsxBracketSameLine: false,
 	// 在单独的箭头函数参数周围包括括号 always：(x) => x \ avoid：x => x
-	arrowParens: 'always',
+	arrowParens: 'avoid',
 	// 这两个选项可用于格式化以给定字符偏移量（分别包括和不包括）开始和结束的代码
 	rangeStart: 0,
 	rangeEnd: Infinity,

@@ -48,12 +48,12 @@ const total = ref(0)
 // 表格数据
 const tableHeader = ref(getPartnersCellData())
 // 表头 查询条件
-const queryTableParams = ref(getPartnersCellData().filter((field) => field.queryParameters))
+const queryTableParams = ref(getPartnersCellData().filter(field => field.queryParameters))
 
 // 添加表单 部分
 const open = ref(false) // 弹框显示标识
 const title = ref('')
-const addForm = ref(getPartnersCellData().filter((field) => field.addFlg))
+const addForm = ref(getPartnersCellData().filter(field => field.addFlg))
 const operateType = ref('') // 是修改 还 添加操作
 const editId = ref('') // 修改操作的行 ID
 const loading = ref(true)
@@ -61,7 +61,7 @@ const loading = ref(true)
 /** 查询列表 */
 function getPartnersList() {
     loading.value = true
-    queryPartnerList(queryParams).then((response) => {
+    queryPartnerList(queryParams).then(response => {
         partnersList.value = response.data.list
         total.value = response.data.total
         loading.value = false
@@ -70,7 +70,7 @@ function getPartnersList() {
 
 /** 搜索按钮操作 */
 function handleQuery() {
-    queryTableParams.value.map((q) => {
+    queryTableParams.value.map(q => {
         queryParams[q.prop] = q.val
     })
     queryParams.pageNum = 1
@@ -90,16 +90,16 @@ function handleAdd() {
 function submitForm() {
     loading.value = true
     const param = {}
-    addForm.value.map((ad) => (param[ad.prop] = ad.val))
+    addForm.value.map(ad => (param[ad.prop] = ad.val))
     if (operateType.value === 'add') {
-        createPartner(param).then((response) => {
+        createPartner(param).then(response => {
             resetQuery() // 重新查询
             loading.value = true
             cancel() // 关闭弹框
         })
     } else if (operateType.value === 'edit') {
         param.id = editId.value
-        updatePartner(param).then((response) => {
+        updatePartner(param).then(response => {
             resetQuery() // 重新查询
             loading.value = true
             cancel() // 关闭弹框
@@ -114,12 +114,12 @@ function cancel() {
 }
 
 function reset() {
-    addForm.value.map((item) => (item.val = ''))
+    addForm.value.map(item => (item.val = ''))
 }
 
 /** 重置-操作 */
 function resetQuery() {
-    queryTableParams.value.map((q) => {
+    queryTableParams.value.map(q => {
         q.val = ''
     })
     handleQuery()
@@ -129,7 +129,7 @@ function resetQuery() {
 function handleUpdate(row) {
     console.log('handleUpdate ~ row:', row)
     // 赋值数据
-    addForm.value.map((item) => {
+    addForm.value.map(item => {
         item.val = row[item.prop]
     })
     title.value = '修改合作机构'
@@ -154,8 +154,6 @@ function handleDelete(row) {
         .catch(() => {})
 }
 
-
-
 /** 角色状态修改 */
 function handleStatusChange(row) {
     // let text = row.status ? '启用' : '停用'
@@ -167,11 +165,8 @@ function handleStatusChange(row) {
         .then(() => {
             proxy.$modal.msgSuccess('成功')
         })
-        .catch(function () {
-        })
+        .catch(function () {})
 }
-
-
 
 // /** 删除按钮操作 */
 // function handleDelete(row) {
@@ -201,11 +196,10 @@ function handleExport() {
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-    ids.value = selection.map((item) => item.roleId)
+    ids.value = selection.map(item => item.roleId)
     single.value = selection.length != 1
     multiple.value = !selection.length
 }
-
 
 // /** 重置新增的表单以及其他数据  */
 // function reset() {
