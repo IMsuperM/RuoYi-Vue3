@@ -1,13 +1,11 @@
 <template>
-    <el-form :model="queryParams" v-show="showSearch" ref="queryRef" :inline="true" label-width="168px">
+    <el-form :model="queryParams" v-show="showSearch" ref="queryRef" :inline="true" label-width="138px">
         <el-row :gutter="20" class="mb8">
             <el-col :span="24">
                 <el-form-item v-for="query in queryParams" :key="query.prop" :label="query.label" :prop="query.prop">
                     <template v-if="query.needDictionary">
                         <!-- 字典类型 -->
-                        <el-select v-model="query.val" placeholder="请选择" :filterable="query.needDictionary.filterable">
-                            <el-option v-for="item in query.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
+                        <select-option :selectConfig="query.needDictionary" v-model="query.val" />
                     </template>
                     <template v-else>
                         <el-input v-model="query.val" :placeholder="`请输入${query.label}`" clearable style="width: 240px" />
@@ -36,68 +34,65 @@
     </el-row>
 </template>
 <script setup neam="TableHeaderSearch">
-    import { getDictionary } from '@/api/partners'
+import { getDictionary } from '@/api/partners'
+import SelectOption from './SelectOption.vue'
 
-    const emit = defineEmits(['handleQuery', 'handleAdd'])
-    const props = defineProps({
-        // 表头数据
-        queryParams: {
-            type: Array,
-            default: () => []
+const emit = defineEmits(['handleQuery', 'handleAdd', 'resetQuery'])
+const props = defineProps({
+    // 表头数据
+    queryParams: {
+        type: Array,
+        default: () => [],
+    },
+})
+const showSearch = ref(true)
+
+// 添加
+function handleAdd() {
+    emit('handleAdd')
+}
+// 重置
+function resetQuery() {
+    emit('resetQuery')
+}
+/** 搜索按钮操作 */
+function handleQuery() {
+    emit('handleQuery')
+}
+
+// 刷新
+function getList() {
+    handleQuery()
+}
+
+// 初始化查询条件
+function initParams() {
+    props.queryParams.map(async (q) => {
+        if (q.needDictionary && !q.options) {
+            // 需要查询字典的
+            const res = await getDictionary(q.needDictionary.code)
+            const { data } = res
+            if (data) {
+                q.options = data.map((d) => {
+                    return { label: d[q.needDictionary.codeName], value: d[q.needDictionary.codeValue] }
+                })
+                console.log('q.options=data.map ~  q.options:', q.options)
+            }
+            console.log('props.queryParams.map ~ res:', res)
         }
     })
-    const showSearch = ref(true)
-
-    // 添加
-    function handleAdd() {
-        emit('handleAdd')
-    }
-    // 重置
-    function resetQuery() {
-        props.queryParams.map((q) => {
-            return (q.val = '')
-        })
-    }
-    /** 搜索按钮操作 */
-    function handleQuery() {
-        emit('handleQuery')
-    }
-
-    // 刷新
-    function getList() {
-        resetQuery()
-        handleQuery()
-    }
-
-    // 初始化查询条件
-    function initParams() {
-        props.queryParams.map(async (q) => {
-            if (q.needDictionary && !q.options) {
-                // 需要查询字典的
-                const res = await getDictionary(q.needDictionary.code)
-                const { data } = res
-                if (data) {
-                    q.options = data.map((d) => {
-                        return { label: d[q.needDictionary.codeName], value: d[q.needDictionary.codeValue] }
-                    })
-                    console.log("q.options=data.map ~  q.options:",  q.options);
-
-                }
-                console.log('props.queryParams.map ~ res:', res)
-            }
-        })
-        console.log('initParams ~  props.queryParams:', props.queryParams)
-    }
-    onMounted(() => {
-        initParams()
-    })
+    console.log('initParams ~  props.queryParams:', props.queryParams)
+}
+onMounted(() => {
+    // initParams()
+})
 </script>
 
 <style scoped lang="scss">
-    :deep(.el-form-item__content) {
-        .el-input,
-        .el-select {
-            width: 200px !important;
-        }
+:deep(.el-form-item__content) {
+    .el-input,
+    .el-select {
+        width: 200px !important;
     }
+}
 </style>
