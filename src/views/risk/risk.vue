@@ -3,12 +3,14 @@
         <!-- 表格搜索 -->
         <table-header-search :query-params="queryTableParams" @handle-query="handleQuery" @handle-add="handleAdd" @reset-query="resetQuery" />
         <!-- 表格数据 -->
-        <template v-if="partnersList.length > 0">
-            <common-table :data="partnersList" :tableHeader="tableHeader" :border="true" :max-height="'400px'" @handle-update="handleUpdate" @handle-delete="handleDelete" @handle-status-change="handleStatusChange" />
+        <common-table :data="pageList" :tableHeader="tableHeader" :border="true" :max-height="'400px'" @handle-update="handleUpdate" @handle-delete="handleDelete" @handle-status-change="handleStatusChange" />
+
+        <!-- <template v-if="pageList.length > 0">
+            <common-table :data="pageList" :tableHeader="tableHeader" :border="true" :max-height="'400px'" @handle-update="handleUpdate" @handle-delete="handleDelete" @handle-status-change="handleStatusChange" />
         </template>
         <template v-else>
             <el-skeleton :rows="6" animated />
-        </template>
+        </template> -->
 
         <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="queryPartnerList" />
 
@@ -34,40 +36,32 @@
         </el-dialog>
     </div>
 </template>
-
-<script setup name="Partners">
+<script setup name="Risk">
 import { createPartner, deletePartner, updatePartner, updatePartnerStatus, queryPartnerList } from '@/api/partners'
-import { getPartnersCellData } from '@/dataSource/partners'
+import { getRiskCellData } from '@/dataSource/risk'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
-import SelectOption from '@/components/CommonTable/SelectOption.vue'
+// import SelectOption from '@/components/CommonTable/SelectOption.vue'
 
 const { proxy } = getCurrentInstance()
 
 // 分页数据
-const partnersList = ref([])
+const pageList = ref([])
 // 分页查询条件
 const queryParams = reactive({ pageNum: 1, pageSize: 10 })
 // 分页控件使用的总条目
 const total = ref(0)
 // 表格数据
-const tableHeader = ref(getPartnersCellData())
+const tableHeader = ref(getRiskCellData())
 // 表头 查询条件
-const queryTableParams = ref(getPartnersCellData().filter(field => field.queryParameters))
+const queryTableParams = ref(getRiskCellData().filter(field => field.queryParameters))
 
-// 添加表单 部分
-const open = ref(false) // 弹框显示标识
-const title = ref('')
-const addForm = ref(getPartnersCellData().filter(field => field.addFlg))
-const operateType = ref('') // 是修改 还 添加操作
-const editId = ref('') // 修改操作的行 ID
-const loading = ref(true)
 
 /** 查询列表 */
 function getPartnersList() {
     loading.value = true
     queryPartnerList(queryParams).then(response => {
-        partnersList.value = response.data.list
+        pageList.value = response.data.list
         total.value = response.data.total
         loading.value = false
     })
@@ -256,5 +250,5 @@ function handleSelectionChange(selection) {
 //     })
 // }
 
-handleQuery()
+// handleQuery()
 </script>

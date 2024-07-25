@@ -10,10 +10,14 @@
           <span v-else>{{ scope.row[item.scope] }}</span>
         </div>
       </template> -->
-        <el-table-column v-for="item in tableHeader" :key="item.prop" :prop="item.prop" :label="item.label">
+        <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label">
             <template #default="scope">
-                <span v-if="item.type === 'normal'">{{ scope.row[item.prop] }}</span>
-                <el-switch v-if="item.type === 'switch'" v-model="item.val" active-value="0" inactive-value="1" @change="handleStatusChange(item)"></el-switch>
+                <template v-if="item.show">
+                    <!-- 正常表格数据 -->
+                    <span v-if="item.show && item.type === 'normal'">{{ scope.row[item.prop] }}</span>
+                    <!-- 插入展示为 Switch开关 -->
+                    <el-switch v-if="item.show && item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row, item)"></el-switch>
+                </template>
             </template>
         </el-table-column>
         <el-table-column v-if="hasOperation" label="操作" fixed="right" :align="textAlign" :width="operationWidth">
@@ -41,7 +45,7 @@
     </el-table>
 </template>
 <script setup name="CommonTable">
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()
 
 const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleStatusChange'])
 const props = defineProps({
@@ -127,6 +131,12 @@ const props = defineProps({
 })
 const tableSelection = ref([])
 
+// 过滤表头列
+const tableColumn = computed(() => {
+    return props.tableHeader.filter(item => item.show)
+})
+console.log("tableColumn ~ tableColumn:", tableColumn);
+
 // 修改
 function handleUpdate(row) {
     console.log('handleUpdate ~ row:', row)
@@ -140,16 +150,15 @@ function handleDelete(row) {
 }
 
 // switch
-function handleStatusChange(row){
-    console.log("handleStatusChange ~ row:", row);
-    // emit('handleStatusChange')
+function handleStatusChange(row, item) {
+    console.log('handleStatusChange ~ row:', row, item)
+    emit('handleStatusChange', row, item)
 }
-
 
 // 设置回显默认勾选行的方法
 function setDefaultSelection(arr = this.defaultSelection) {
-    this.data.forEach((item) => {
-        const flag = arr.some((s_item) => s_item[this.selectKey] === item[this.selectKey])
+    this.data.forEach(item => {
+        const flag = arr.some(s_item => s_item[this.selectKey] === item[this.selectKey])
         this.$refs.customTable.toggleRowSelection(item, flag)
     })
 }
@@ -166,7 +175,7 @@ function setSelectAble(row, i) {
     if (this.setSelecTable) {
         return this.setSelecTable(row, i)
     }
-    const selectData = this.defaultSelection.find((item) => item[this.selectKey] === row[this.selectKey])
+    const selectData = this.defaultSelection.find(item => item[this.selectKey] === row[this.selectKey])
     if (!selectData) return true
     return !selectData[this.selectDisableKey]
 }
