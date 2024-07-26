@@ -61,15 +61,12 @@ const title = ref('')
 const addForm = ref(getPartnersCellData().filter(field => field.addFlg))
 const operateType = ref('') // 是修改 还 添加操作
 const editId = ref('') // 修改操作的行 ID
-const loading = ref(true)
 
 /** 查询列表 */
 function getPartnersList() {
-    loading.value = true
     queryPartnerList(queryParams).then(response => {
         partnersList.value = response.data.list
         total.value = response.data.total
-        loading.value = false
     })
 }
 
@@ -93,20 +90,17 @@ function handleAdd() {
 
 /** 添加---提交按钮 */
 function submitForm() {
-    loading.value = true
     const param = {}
     addForm.value.map(ad => (param[ad.prop] = ad.val))
     if (operateType.value === 'add') {
         createPartner(param).then(response => {
             resetQuery() // 重新查询
-            loading.value = true
             cancel() // 关闭弹框
         })
     } else if (operateType.value === 'edit') {
         param.id = editId.value
         updatePartner(param).then(response => {
             resetQuery() // 重新查询
-            loading.value = true
             cancel() // 关闭弹框
         })
     }
@@ -117,7 +111,6 @@ function cancel() {
     open.value = false
     reset()
 }
-
 function reset() {
     addForm.value.map(item => (item.val = ''))
 }
@@ -162,11 +155,11 @@ function handleDelete(row) {
 /** 角色状态修改 */
 function handleStatusChange(row, item) {
     console.log('handleStatusChange ~ row:', row)
-    // let text = row.status ? '启用' : '停用'
-    const prarms = { id: row.id, disabled: row.disabled }
+    let text = item.disabled ? '停用' : '启用'
     proxy.$modal
-        .confirm('确认要启用吗?')
+        .confirm(`确认要${text}吗?`)
         .then(function () {
+            const prarms = { id: row.id, disabled: row.disabled }
             return updatePartnerStatus(prarms)
         })
         .then(() => {
@@ -176,85 +169,6 @@ function handleStatusChange(row, item) {
             row.disabled = !row.disabled
         })
 }
-// /** 删除按钮操作 */
-// function handleDelete(row) {
-//     const roleIds = row.roleId || ids.value
-//     proxy.$modal
-//         .confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?')
-//         .then(function () {
-//             return delRole(roleIds)
-//         })
-//         .then(() => {
-//             getList()
-//             proxy.$modal.msgSuccess('删除成功')
-//         })
-//         .catch(() => {})
-// }
-
-/** 导出按钮操作 */
-function handleExport() {
-    proxy.download(
-        'system/role/export',
-        {
-            ...queryParams.value,
-        },
-        `role_${new Date().getTime()}.xlsx`
-    )
-}
-
-/** 多选框选中数据 */
-function handleSelectionChange(selection) {
-    ids.value = selection.map(item => item.roleId)
-    single.value = selection.length != 1
-    multiple.value = !selection.length
-}
-
-// /** 重置新增的表单以及其他数据  */
-// function reset() {
-//     if (menuRef.value != undefined) {
-//         menuRef.value.setCheckedKeys([])
-//     }
-//     menuExpand.value = false
-//     menuNodeAll.value = false
-//     deptExpand.value = true
-//     deptNodeAll.value = false
-//     form.value = {
-//         roleId: undefined,
-//         roleName: undefined,
-//         roleKey: undefined,
-//         roleSort: 0,
-//         status: '0',
-//         menuIds: [],
-//         deptIds: [],
-//         menuCheckStrictly: true,
-//         deptCheckStrictly: true,
-//         remark: undefined,
-//     }
-//     proxy.resetForm('roleRef')
-// }
-
-/** 修改角色 */
-// function handleUpdate(row) {
-//     reset()
-//     const roleId = row.roleId || ids.value
-//     const roleMenu = getRoleMenuTreeselect(roleId)
-//     getRole(roleId).then((response) => {
-//         form.value = response.data
-//         form.value.roleSort = Number(form.value.roleSort)
-//         open.value = true
-//         nextTick(() => {
-//             roleMenu.then((res) => {
-//                 let checkedKeys = res.checkedKeys
-//                 checkedKeys.forEach((v) => {
-//                     nextTick(() => {
-//                         menuRef.value.setChecked(v, true, false)
-//                     })
-//                 })
-//             })
-//         })
-//         title.value = '修改角色'
-//     })
-// }
 
 handleQuery()
 </script>

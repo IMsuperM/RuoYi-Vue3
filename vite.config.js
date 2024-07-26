@@ -32,12 +32,19 @@ export default defineConfig(({ mode, command }) => {
             // open: true, // 自动在浏览器中打开应用程序
             proxy: {
                 // https://cn.vitejs.dev/config/#server-proxy
+                '/api/mock': {
+                    target: 'https://10.118.13.4:80', //对mock进行代理，为了区别非mock的代理（要走mock的话 得放前面，不然优先找其他请求了）
+                    changeOrigin: true,
+                    secure: false,
+                    rewrite: path => path.replace(/^\/api/, ''),
+                  },
                 '/api': {
                     target: 'https://cbc3-183-159-23-76.ngrok-free.app',
                     //  target: 'https://sumperm.com/koa2',
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, ""),
                 },
+
             }
         },
         //fix:error:stdin>:7356:1: warning: "@charset" must be the first rule in the file

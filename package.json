@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "mock": "vite --mode mock --force",
     "build:prod": "vite build",
     "build:stage": "vite build --mode staging",
     "preview": "vite preview"
@@ -42,7 +43,6 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.27.0",
     "globals": "^15.8.0",
-    "mockjs": "^1.1.0",
     "prettier": "^3.3.3",
     "sass": "1.77.5",
     "unplugin-auto-import": "0.17.6",
@@ -51,6 +51,7 @@
     "vite-plugin-compression": "0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-mkcert": "^1.17.5",
+    "vite-plugin-mock": "^3.0.2",
     "vite-plugin-svg-icons": "2.0.1"
   }
 }

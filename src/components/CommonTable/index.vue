@@ -14,9 +14,9 @@
             <template #default="scope">
                 <template v-if="item.show">
                     <!-- 正常表格数据 -->
-                    <span v-if="item.show && item.type === 'normal'">{{ scope.row[item.prop] }}</span>
+                    <span v-if="item.type === 'normal'">{{ scope.row[item.prop] }}</span>
                     <!-- 插入展示为 Switch开关 -->
-                    <el-switch v-if="item.show && item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row, item)"></el-switch>
+                    <el-switch v-if="item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row, item)"></el-switch>
                 </template>
             </template>
         </el-table-column>
@@ -135,7 +135,6 @@ const tableSelection = ref([])
 const tableColumn = computed(() => {
     return props.tableHeader.filter(item => item.show)
 })
-console.log("tableColumn ~ tableColumn:", tableColumn);
 
 // 修改
 function handleUpdate(row) {

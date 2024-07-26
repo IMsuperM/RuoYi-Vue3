@@ -4,8 +4,8 @@
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
 </template>
-<script setup>
-import { getDictionary } from '@/api/partners'
+<script setup name="SelectOption">
+import { getDictionary } from '@/api/config'
 const emit = defineEmits(['update:selectValue'])
 const props = defineProps({
     // 下拉项配置
@@ -27,18 +27,25 @@ const slValue = computed({
 })
 const options = ref([])
 
+// 初始化字典项 有的需要查询接口获取的
 async function initSelectOption() {
     const { selectConfig } = props
-    if (selectConfig.code) {
-        const res = await getDictionary(selectConfig.code)
-        const { data } = res
-        if (data) {
-            options.value = data.map((d) => {
-                return { label: d[selectConfig.codeName], value: d[selectConfig.codeValue] }
-            })
-        }
-    } else {
+    if(selectConfig.options){
         options.value = selectConfig.options
+        return
+    }
+    if (selectConfig.code) {
+        try {
+            const res = await getDictionary(selectConfig.code)
+            const { data } = res
+            if (data) {
+                options.value = data.map(d => {
+                    return { label: d[selectConfig.codeName], value: d[selectConfig.codeValue] }
+                })
+            }
+        } catch (error) {
+            options.value = {}
+        }
     }
 }
 
