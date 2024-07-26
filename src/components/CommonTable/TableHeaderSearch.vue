@@ -1,22 +1,19 @@
 <template>
     <el-form :model="queryParams" v-show="showSearch" ref="queryRef" :inline="true" label-width="138px">
-        <el-row :gutter="20" class="mb8">
-            <el-col :span="24">
-                <el-form-item v-for="query in queryParams" :key="query.prop" :label="query.label" :prop="query.prop">
-                    <template v-if="query.needDictionary">
-                        <!-- 字典类型 -->
-                        <select-option :selectConfig="query.needDictionary" v-model="query.val" />
-                    </template>
-                    <template v-else-if="query.type === 'time'">
-                        <!-- 日期类型 -->
-                        <time-picker v-model="query.val" />
-                    </template>
-                    <template v-else>
-                        <el-input v-model="query.val" :placeholder="`请输入${query.label}`" clearable style="width: 240px" />
-                    </template>
-                </el-form-item>
-            </el-col>
-        </el-row>
+        <el-form-item v-for="query in queryParams" :key="query.prop" :label="query.label" :prop="query.prop">
+            <template v-if="query.needDictionary">
+                <!-- 字典类型 -->
+                <select-option :selectConfig="query.needDictionary" v-model="query.val" />
+            </template>
+            <template v-else-if="query.type === 'time'">
+                <!-- 日期类型 -->
+                <time-picker v-model="query.val" />
+            </template>
+            <template v-else>
+                <el-input v-model="query.val" :placeholder="`请输入${query.label}`" clearable style="width: 240px" />
+            </template>
+        </el-form-item>
+
         <el-row :gutter="10" class="mb8">
             <el-form-item>
                 <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>

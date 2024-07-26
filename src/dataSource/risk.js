@@ -15,12 +15,6 @@ export function getRiskCellData() {
         { type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true, },
         { type: 'normal', val: '', label: '合作方id', prop: 'partnerId', queryParameters: true, },
         { type: 'normal', val: '', label: '国家代码', prop: 'countryCode', queryParameters: true,  needDictionary: { code: 'countryCode', codeName: 'desc', codeValue: 'name', filterable: true }, },
-        // { type: 'normal', val: '', label: '开始下单时间', prop: 'startApplyDate', queryParameters: true, },
-        // { type: 'normal', val: '', label: '结束下单时间', prop: 'endApplyDate', queryParameters: true, },
-        // { type: 'normal', val: '', label: '开始创建时间', prop: 'startCreateTime', queryParameters: true, },
-        // { type: 'normal', val: '', label: '结束创建时间', prop: 'endCreateTime', queryParameters: true, },
-        { type: 'time', val: '', label: '下单时间', prop: 'applyDate', queryParameters: true, startTime:'startCreateTime', endTime:'endCreateTime' },
-        { type: 'time', val: '', label: '创建时间', prop: 'createTime', queryParameters: true, startTime:'startApplyDate', endTime:'endApplyDate' },
 
         { type: 'normal', val: '', label: '风控状态', prop: 'status', queryParameters: true,  needDictionary: { options: [{ value: 'AUDITING', label: '审核中' }, { value: 'SUCCESS', label: '审核成功' }] }, },
         { type: 'normal', val: '', label: '风控结果', prop: 'result', queryParameters: true,  needDictionary: { options: [{ value: 'APPROVE', label: '通过' }, { value: 'MANUAL', label: '人审' }, { value: 'REJECT', label: '拒绝' }] }, },
@@ -32,7 +26,13 @@ export function getRiskCellData() {
         { type: 'normal', val: '', label: '备注', prop: 'remark', show: true, },
         { type: 'normal', val: '', label: '是否启用', prop: 'disabled', show: true, },
         { type: 'normal', val: '', label: '创建时间', prop: 'createTime', show: true, },
-        { type: 'normal', val: '', label: '更新时间', prop: 'updateTime', show: true, }
+        { type: 'normal', val: '', label: '更新时间', prop: 'updateTime', show: true, },
+         // { type: 'normal', val: '', label: '开始下单时间', prop: 'startApplyDate', queryParameters: true, },
+        // { type: 'normal', val: '', label: '结束下单时间', prop: 'endApplyDate', queryParameters: true, },
+        // { type: 'normal', val: '', label: '开始创建时间', prop: 'startCreateTime', queryParameters: true, },
+        // { type: 'normal', val: '', label: '结束创建时间', prop: 'endCreateTime', queryParameters: true, },
+        { type: 'time', val: '', label: '下单时间', prop: 'applyDate', queryParameters: true, startTime:'startCreateTime', endTime:'endCreateTime' },
+        { type: 'time', val: '', label: '创建时间', prop: 'createTime', queryParameters: true, startTime:'startApplyDate', endTime:'endApplyDate' },
     ];
 }
 
