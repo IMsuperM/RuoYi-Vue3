@@ -22,26 +22,26 @@
         </el-table-column>
         <el-table-column v-if="hasOperation" label="操作" fixed="right" :align="textAlign" :width="operationWidth">
             <template #default="scope">
-                <el-tooltip content="修改" placement="top">
+                <el-button link type="primary" size="small" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
+                <el-button link type="primary" size="small" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+                <el-button link type="primary" size="small" icon="Star" @click="handleRecharge(scope.row)">充值</el-button>
+                <!-- <el-tooltip content="修改" placement="top">
                     <el-button link type="primary" size="small" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
                 </el-tooltip>
                 <el-tooltip content="删除" placement="top">
                     <el-button link type="primary" size="small" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
                 </el-tooltip>
+                <el-tooltip content="充值" placement="top">
+                    <el-button link type="primary" size="small" icon="Star" @click="handleRecharge(scope.row)">充值</el-button>
+                </el-tooltip> -->
             </template>
-            <!-- <el-col :span="1.5">
-                <el-button type="success" plain icon="Edit" @click="handleUpdate">修改</el-button>
-            </el-col>
-            <el-col :span="1.5">
-                <el-button type="danger" plain icon="Delete" @click="handleDelete">删除</el-button>
-            </el-col> -->
         </el-table-column>
     </el-table>
 </template>
 <script setup name="CommonTable">
 const { proxy } = getCurrentInstance()
 
-const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleStatusChange', 'handSelectionChange'])
+const emit = defineEmits(['handleUpdate', 'handleDelete','handleRecharge', 'handleStatusChange', 'handSelectionChange'])
 const props = defineProps({
     // 表头数据
     tableHeader: {
@@ -78,7 +78,7 @@ const props = defineProps({
     // 操作列的宽度
     operationWidth: {
         type: [String, Number],
-        default: '140px',
+        default: '180px',
     },
     // 表格中内容对齐方式
     textAlign: '',
@@ -140,6 +140,10 @@ function handleUpdate(row) {
 function handleDelete(row) {
     console.log('handleDelete ~ row:', row)
     emit('handleDelete', row)
+}
+// c充值
+function handleRecharge(row){
+    emit('handleRecharge', row)
 }
 
 // switch

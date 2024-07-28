@@ -4,7 +4,7 @@
         <table-header-search :query-params="queryTableParams" :add-aciton="true" @handle-query="handleQuery" @handle-add="handleAdd" @reset-query="resetQuery" />
         <!-- 表格数据 -->
         <template v-if="loading">
-            <common-table :data="partnersList" :tableHeader="tableHeader" :border="true" @handle-update="handleUpdate" @handle-delete="handleDelete" @handle-status-change="handleStatusChange" />
+            <common-table :data="partnersList" :tableHeader="tableHeader" :border="true" @handle-recharge="handleRecharge" @handle-update="handleUpdate" @handle-delete="handleDelete" @handle-status-change="handleStatusChange" />
         </template>
         <template v-else>
             <el-skeleton :rows="6" animated />
@@ -21,7 +21,7 @@
                         <select-option :selectConfig="formRule[key].needDictionary" v-model="addForm[key]" />
                     </template>
                     <template v-else>
-                        <el-input v-model="addForm[key]" :placeholder="`请输入${formRule[key].label}`" />
+                        <el-input v-model="addForm[key]" :type="formRule[key].inputType || 'text'" :placeholder="`请输入${formRule[key].label}`" />
                     </template>
                 </el-form-item>
             </el-form>
@@ -32,11 +32,32 @@
                 </div>
             </template>
         </el-dialog>
+
+        <!-- 充值 -->
+        <el-dialog title="充值" v-model="rechargeOpen" @closed="rechargeReset" width="400px" style="margin-top: 20vh !important" append-to-body>
+            <el-form :model="rechargeForm" ref="rechargeFormRef" :show-message="false" label-width="100px">
+                <el-form-item label="合作机构ID" prop="id">
+                    <el-input v-model="rechargeForm.id" disabled />
+                </el-form-item>
+                <el-form-item label="充值金额" prop="rechargeAmount">
+                    <el-input v-model="rechargeForm.rechargeAmount" type="number" :rule="[{ required: true }]" placeholder="请输入充值金额" />
+                </el-form-item>
+                <el-form-item label="备注" prop="remark">
+                    <el-input v-model="rechargeForm.remark" type="textarea" placeholder="请输入备注" />
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button type="primary" @click="rechargeSubmitForm">确 定</el-button>
+                    <el-button @click="rechargeCancel">取 消</el-button>
+                </div>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
 <script setup name="Partners">
-import { createPartner, deletePartner, updatePartner, updatePartnerStatus, queryPartnerList } from '@/api/partners'
+import { createPartner, deletePartner, updatePartner, updatePartnerStatus, queryPartnerList, recharge } from '@/api/partners'
 import { getPartnersCellData } from '@/dataSource/partners'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
@@ -68,6 +89,15 @@ const editId = ref('') // 修改操作的行 ID
 const formRef = ref(null)
 getAddForm()
 
+// 充值表单部分
+const rechargeForm = reactive({
+    id: '',
+    rechargeAmount: '',
+    remark: '',
+})
+const rechargeFormRef = ref(null)
+const rechargeOpen = ref(false)
+
 // 获取添加表单的字段 及相关规则
 function getAddForm() {
     const arr = getPartnersCellData().filter(field => field.addFlg)
@@ -81,13 +111,15 @@ function getAddForm() {
 /** 查询列表 */
 function getPartnersList() {
     loading.value = false
-    queryPartnerList(queryParams).then(response => {
-        partnersList.value = response.data.list
-        total.value = response.data.total
-        loading.value = true
-    }).catch(err=>{
-        loading.value = true
-    })
+    queryPartnerList(queryParams)
+        .then(response => {
+            partnersList.value = response.data.list
+            total.value = response.data.total
+            loading.value = true
+        })
+        .catch(err => {
+            loading.value = true
+        })
 }
 
 /** 搜索按钮操作 */
@@ -142,13 +174,48 @@ async function submitForm() {
 /**  添加---取消按钮 关闭弹框 */
 function cancel() {
     open.value = false
-    reset()
 }
 function reset() {
     // Object.keys(addForm).map(item => (addForm[item] = ''))
     // addForm.value.map(item => (item.val = ''))
     if (!formRef.value) return
     formRef.value.resetFields()
+}
+
+
+/** 充值--- 打开弹框 */
+function handleRecharge(row) {
+    rechargeForm.id = row.id
+    console.log("handleRecharge ~ rechargeForm:", rechargeForm);
+    rechargeOpen.value = true
+}
+/** 充值弹框---确认按钮 */
+async function rechargeSubmitForm() {
+    // 必填校验
+    let validateFlg = false
+    await rechargeFormRef.value.validate(valid => {
+        validateFlg = valid
+        if (valid) {
+            console.log('submit!')
+        } else {
+            console.log('error submit!')
+        }
+    })
+    if (!validateFlg) return
+    const param = {}
+    Object.keys(rechargeForm).map(key => (param[key] = rechargeForm[key]))
+    recharge(param).then(response => {
+        resetQuery() // 重新查询
+        cancel() // 关闭弹框
+    })
+}
+/**  充值弹框---取消按钮 关闭弹框 */
+function rechargeCancel() {
+    rechargeOpen.value = false
+    if (!rechargeFormRef.value) return
+}
+function rechargeReset() {
+    rechargeFormRef.value.resetFields()
 }
 
 /** 重置-操作 */
@@ -158,6 +225,7 @@ function resetQuery() {
     })
     handleQuery()
 }
+
 
 // 修改
 function handleUpdate(row) {
