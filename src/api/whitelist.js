@@ -22,3 +22,12 @@ export function uploadList(params) {
         }
     })
 }
+
+// 删除
+export function deleteRequest(params) {
+    return request({
+        url: `${BASE_URL}/tag-user/delete`,
+        method: 'post',
+        data: params,
+    })
+}

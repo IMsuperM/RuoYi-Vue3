@@ -20,6 +20,7 @@
             <el-button icon="Refresh" size="small" @click="resetQuery">重置</el-button>
             <el-button v-if="addAciton" type="primary" size="small" plain icon="Plus" @click="handleAdd">新增</el-button>
             <el-button v-if="uploadAciton" type="warning" size="small" plain icon="Download" @click="handleUpload">导入</el-button>
+            <el-button v-if="deletAciton" type="danger" size="small" plain icon="Delete" @click="handleDelete">删除</el-button>
         </template>
         <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -28,7 +29,7 @@
 import SelectOption from './SelectOption.vue'
 import TimePicker from './TimePicker.vue'
 
-const emit = defineEmits(['handleQuery', 'handleAdd', 'resetQuery', 'handleUpload'])
+const emit = defineEmits(['handleQuery', 'handleAdd', 'resetQuery', 'handleUpload', 'handleDelete'])
 const props = defineProps({
     // 查询条件数据
     queryParams: {
@@ -39,6 +40,8 @@ const props = defineProps({
     addAciton: { type: Boolean, default: () => false },
     // 是否显示表头的 导入按钮
     uploadAciton: { type: Boolean, default: () => false },
+    // 是否显示表头的 删除按钮
+    deletAciton: { type: Boolean, default: () => false },
 })
 const showSearch = ref(true) // 是否显示查询条件
 
@@ -62,9 +65,13 @@ function getList() {
 function handleUpload() {
     emit('handleUpload')
 }
+// 删除
+function handleDelete() {
+    emit('handleDelete')
+}
 
 // 设置默认值成功
-function setDefaultValue(){
+function setDefaultValue() {
     handleQuery()
 }
 

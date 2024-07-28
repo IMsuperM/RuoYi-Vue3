@@ -1,4 +1,5 @@
 /**
+ * charLength 字段在表格中长度设置
  * show 该 字段是否在表格中展示
  * label 中文字段
  * prop 表字段
@@ -9,17 +10,17 @@
 export function getPartnersCellData() {
     return [
         { type: 'normal', val: '', label: 'id', prop: 'id' },
-        { type: 'normal', val: '', label: '合作方编码', prop: 'partnerCode', show: true, queryParameters: true, addFlg: true },
-        { type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true, queryParameters: true, addFlg: true },
-        { type: 'normal', val: '', label: '合作方key', prop: 'partnerKey', show: true, },
-        { type: 'normal', val: '', label: '合作方秘钥', prop: 'partnerSecret', show: true, },
+        { charLength: 12, type: 'normal', val: '', label: '合作方编码', prop: 'partnerCode', show: true, queryParameters: true, addFlg: true },
+        { charLength: 8, type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true, queryParameters: true, addFlg: true },
+        { charLength: 12, type: 'normal', val: '', label: '合作方key', prop: 'partnerKey', show: true, },
+        { charLength: 12, type: 'normal', val: '', label: '合作方秘钥', prop: 'partnerSecret', show: true, },
         { type: 'normal', val: '', label: '国家代码', prop: 'countryCode', queryParameters: true, addFlg: true, needDictionary: { code: 'countryCode', codeName: 'desc', codeValue: 'name', filterable: true } },
         { type: 'normal', val: '', label: '国家', prop: 'country', show: true, },
-        { type: 'normal', val: '', label: '备注', prop: 'remark', show: true, addFlg: true, },
+        { charLength: 8, type: 'normal', val: '', label: '备注', prop: 'remark', show: true, addFlg: true, },
         { type: 'switch', val: '', label: '是否启用', prop: 'disabled', show: true, queryParameters: true, needDictionary: true, needDictionary: { options: [{ value: true, label: '是' }, { value: false, label: '否' }] }, },
         { type: 'normal', val: '', label: '创建人姓名', prop: 'createUsername', show: true, },
-        { type: 'normal', val: '', label: '创建时间', prop: 'createTime', show: true, },
+        { charLength: 8, type: 'normal', val: '', label: '创建时间', prop: 'createTime', show: true, },
         { type: 'normal', val: '', label: '更新人姓名', prop: 'updateUsername', show: true, },
-        { type: 'normal', val: '', label: '更新时间', prop: 'updateTime', show: true, }
+        { charLength: 8, type: 'normal', val: '', label: '更新时间', prop: 'updateTime', show: true, }
     ];
 }

@@ -1,7 +1,7 @@
 <template>
-    <el-table ref="customTable" :class="{ empty: data.length === 0 }" :data="data" :header-cell-style="headerCellStyle" :max-height="maxHeight" :border="border" table-layout="auto" @selection-change="selectionChange">
+    <el-table ref="customTable" :class="{ empty: data.length === 0 }" :data="data" :header-cell-style="headerCellStyle" :max-height="maxHeight" :border="border" table-layout="auto" @selection-change="handSelectionChange">
         <el-table-column v-if="hasIndex" type="index" :fixed="indexFixed" :align="textAlign" :label="indexLabel"></el-table-column>
-        <el-table-column v-if="hasSelection" type="selection" :fixed="selectionFixed" :align="textAlign" :selectable="setSelectAble"></el-table-column>
+        <el-table-column v-if="hasSelection" type="selection" :fixed="selectionFixed" :align="textAlign" width="35px"></el-table-column>
         <!-- 表头 -->
         <!-- <el-table-column v-for="item in tableHeader" :key="item.prop" :prop="item.prop" :label="item.label"> -->
         <!-- <template slot-scope="scope">
@@ -41,7 +41,7 @@
 <script setup name="CommonTable">
 const { proxy } = getCurrentInstance()
 
-const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleStatusChange'])
+const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleStatusChange', 'handSelectionChange'])
 const props = defineProps({
     // 表头数据
     tableHeader: {
@@ -115,7 +115,7 @@ const props = defineProps({
     },
     selectionFixed: {
         type: [String, Boolean],
-        default: false,
+        default: true,
     },
     rowKey: {
         type: String,
@@ -148,6 +148,12 @@ function handleStatusChange(row) {
     emit('handleStatusChange', row)
 }
 
+// 列表当前选中的行, this.$refs[表格组件名].tableSelection 获取
+function handSelectionChange(s) {
+    emit('handSelectionChange', s)
+}
+
+
 // 设置回显默认勾选行的方法
 function setDefaultSelection(arr = this.defaultSelection) {
     this.data.forEach(item => {
@@ -155,11 +161,7 @@ function setDefaultSelection(arr = this.defaultSelection) {
         this.$refs.customTable.toggleRowSelection(item, flag)
     })
 }
-// 列表当前选中的行, this.$refs[表格组件名].tableSelection 获取
-function selectionChange(s) {
-    this.tableSelection = s
-    this.$emit('tableSelectionChange')
-}
+
 function clearSelection() {
     this.$refs.customTable.clearSelection()
 }

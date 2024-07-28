@@ -1,6 +1,6 @@
 <template>
   <div class="app-container home">
-    <h1>嘉哥才是最屌的</h1>
+    <h1>嘉哥才是顶流</h1>
   </div>
 </template>
 

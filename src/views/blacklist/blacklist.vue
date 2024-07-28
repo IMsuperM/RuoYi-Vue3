@@ -1,16 +1,16 @@
 <template>
     <div class="app-container">
         <!-- 表格搜索 -->
-        <table-header-search :query-params="queryTableParams" :upload-aciton="true" @handle-upload="handleUpload" @handle-query="handleQuery" @reset-query="resetQuery" />
+        <table-header-search :query-params="queryTableParams" :upload-aciton="true" :delet-aciton="true" @handle-upload="handleUpload" @handle-delete="handleDelete" @handle-query="handleQuery" @reset-query="resetQuery" />
         <!-- 表格数据 -->
         <template v-if="loading">
-            <common-table :data="pageList" :tableHeader="tableHeader" :border="true" :hasOperation="false" />
+            <common-table :data="pageList" :hasSelection="true" :tableHeader="tableHeader" :border="true" :hasOperation="false" @hand-selection-change="handSelectionChange" />
         </template>
         <template v-else>
             <el-skeleton :rows="6" animated />
         </template>
         <!-- 分页主键 -->
-        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="queryUserList" />
+        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getUserList" />
         <!-- 导入表单 -->
         <el-dialog title="导入名单" v-model="open" @closed="reset" width="700px" style="margin-top: 20vh !important" append-to-body>
             <el-form :model="uploadForm" :show-message="false" ref="formRef" label-width="120px">
@@ -52,7 +52,7 @@
     </div>
 </template>
 <script setup name="WhiteList">
-import { queryUserList, uploadList } from '@/api/whitelist'
+import { queryUserList, uploadList, deleteRequest } from '@/api/whitelist'
 import { getBlacklistCellData } from '@/dataSource/user'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
@@ -105,6 +105,38 @@ const tag = reactive({ code: 'tag', codeName: 'desc', codeValue: 'name' })
 const uploadRef = ref(null)
 const fileList = ref([])
 
+// 选择的操作列
+const tableSelection = ref([])
+
+
+// 表格的勾选
+function handSelectionChange(selection) {
+    console.log('handSelectionChange ~ selection:', selection)
+    tableSelection.value = selection
+}
+// 删除操作
+function handleDelete() {
+    if (tableSelection.value.length === 0) {
+        proxy.$modal.msgError('请先选择数据，再进行操作')
+        return
+    }
+
+    const idArr = tableSelection.value.map(t => {
+        return t.id
+    })
+    proxy.$modal
+        .confirm('是否确认删除所选数据项\?')
+        .then(function () {
+            return deleteRequest({ idList: idArr })
+        })
+        .then(() => {
+            resetQuery() // 重新查询
+            proxy.$modal.msgSuccess('删除成功')
+        })
+        .catch(() => {})
+}
+
+
 /** 查询列表 */
 function getUserList() {
     loading.value = false
@@ -154,7 +186,6 @@ function handleUpload() {
 /** 添加---提交按钮 */
 async function submitForm() {
     !uploadType.value && uploadRef.value.submit() // 上传组件会触发 httpRequest 方法
-    console.log('submitForm ~ submitForm:', uploadForm)
 
     let validateFlg = false
     await formRef.value.validate(valid => {

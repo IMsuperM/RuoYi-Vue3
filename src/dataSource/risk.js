@@ -1,4 +1,5 @@
 /**
+ * charLength 字段在表格中长度设置
  * show 该 字段是否在表格中展示
  * label 中文字段
  * prop 表字段
@@ -8,7 +9,7 @@
  */
 export function getRiskCellData() {
     return [
-        { type: 'normal', val: '', label: 'id', prop: 'id', show: true, },
+        { type: 'normal', val: '', label: 'id', prop: 'id', },
         { charLength: 12, type: 'normal', val: '', label: '风控订单号', prop: 'taskNo', show: true, queryParameters: true, },
         { charLength: 10, type: 'normal', val: '', label: '申请订单号', prop: 'orderNo', show: true, queryParameters: true, },
         { charLength: 14, type: 'normal', val: '', label: '合作方订单号', prop: 'partnerOrderNo', show: true, queryParameters: true, },

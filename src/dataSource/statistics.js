@@ -10,10 +10,10 @@
 //  黑白名单
 export function getStatisticsCellData() {
     return [
-        { type: 'normal', val: '', label: '统计日期', prop: 'statisticDate', show: true,},
+        { type: 'normal', val: '', label: '统计日期', prop: 'statisticDate', show: true, },
         { type: 'normal', val: '', label: '风控调用量', prop: 'riskCallNum', show: true, },
         { type: 'normal', val: '', label: '申请订单数', prop: 'applyNum', show: true, },
-        { type: 'normal', val: '', label: '拒绝订单数', prop: 'rejectNum', show: true,},
+        { type: 'normal', val: '', label: '拒绝订单数', prop: 'rejectNum', show: true, },
         { type: 'normal', val: '', label: '审核中订单数', prop: 'auditingNum', show: true, },
         { type: 'normal', val: '', label: '通过订单数', prop: 'approveNum', show: true, },
         { type: 'normal', val: '', label: '通过率', prop: 'approveRate', show: true, },
@@ -27,11 +27,11 @@ export function getStatisticsCellData() {
         { type: 'normal', val: '', label: '逾期率', prop: 'overdueRate', show: true, },
 
         { type: 'normal', val: [], label: '合作方名称', prop: 'partnerIdList', queryParameters: true, needDictionary: { code: 'partner', codeName: 'desc', codeValue: 'name', filterable: true, multipleSelcet: true, } },
-        { type: 'normal', val: '', label: '国家代码', prop: 'countryCode', queryParameters: true,  needDictionary: { code: 'countryCode', codeName: 'desc', codeValue: 'name', filterable: true }, },
+        { type: 'normal', val: '', label: '国家代码', prop: 'countryCode', queryParameters: true, needDictionary: { code: 'countryCode', codeName: 'desc', codeValue: 'name', filterable: true }, },
         { type: 'normal', val: '', label: '合作方app名称', prop: 'partnerAppName', queryParameters: true, },
         { type: 'normal', val: '', label: '合作方产品名称', prop: 'partnerProductName', queryParameters: true, },
-        { type: 'normal', val: '', label: '合作方用户类型', prop: 'partnerUserType', queryParameters: true,  needDictionary: { options: [{ value: 'NEW', label: '新客' }, { value: 'OLD', label: '老客' }]}, },
-        { type: 'normal', val: '', label: '用户名单类型', prop: 'tag', queryParameters: true,  needDictionary: { code: 'tag', codeName: 'desc', codeValue: 'name' }, },
-        { type: 'time', val: '', label: '创建时间', prop: 'statisticDate', queryParameters: true, startTime:'startStatisticDate', endTime:'endStatisticDate' },
+        { type: 'normal', val: '', label: '合作方用户类型', prop: 'partnerUserType', queryParameters: true, needDictionary: { options: [{ value: 'NEW', label: '新客' }, { value: 'OLD', label: '老客' }] }, },
+        { type: 'normal', val: '', label: '用户名单类型', prop: 'tag', queryParameters: true, needDictionary: { code: 'tag', codeName: 'desc', codeValue: 'name' }, },
+        { type: 'time', val: '', label: '创建时间', prop: 'statisticDate', queryParameters: true, startTime: 'startStatisticDate', endTime: 'endStatisticDate' },
     ];
 }

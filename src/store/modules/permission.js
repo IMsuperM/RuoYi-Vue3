@@ -57,13 +57,11 @@ const usePermissionStore = defineStore(
             // 直接设置本地路由
             generateRoutesStatic(roles) {
                 return new Promise(resolve => {
-                    const asyncRoutes = filterAsyncRouter(dynamicRoutes)
-                    asyncRoutes.forEach(route => { router.addRoute(route) })
-                    this.setRoutes(asyncRoutes)
-                    this.setSidebarRouters(constantRoutes.concat(asyncRoutes))
-                    this.setDefaultRoutes(asyncRoutes)
-                    this.setTopbarRoutes(asyncRoutes)
-                    resolve(asyncRoutes)
+                    this.setRoutes(constantRoutes)
+                    this.setSidebarRouters(constantRoutes)
+                    this.setDefaultRoutes(constantRoutes)
+                    this.setTopbarRoutes(constantRoutes)
+                    resolve(constantRoutes)
                 })
             }
         }
