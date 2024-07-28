@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
         <!-- 表格搜索 -->
-        <table-header-search :query-params="queryTableParams" :add-aciton="false" @handle-query="handleQuery" @reset-query="resetQuery" />
+        <table-header-search :query-params="queryTableParams" @handle-query="handleQuery" @reset-query="resetQuery" />
         <!-- 表格数据 -->
         <template v-if="loading">
             <common-table :data="pageList" :tableHeader="tableHeader" :border="true" :hasOperation="false" />
@@ -10,12 +10,12 @@
             <el-skeleton :rows="6" animated />
         </template>
         <!-- 分页主键 -->
-        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getRiskList" />
+        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="queryOrderList" />
     </div>
 </template>
-<script setup name="Risk">
-import { list, queryRiskList } from '@/api/risk'
-import { getRiskCellData } from '@/dataSource/risk'
+<script setup name="Order">
+import { queryOrderList } from '@/api/order'
+import { getOrderCellData } from '@/dataSource/order'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
 
@@ -29,22 +29,14 @@ const queryParams = reactive({ pageNum: 1, pageSize: 10 })
 // 分页控件使用的总条目
 const total = ref(0)
 // 表格数据
-const tableHeader = ref(getRiskCellData())
+const tableHeader = ref(getOrderCellData())
 // 表头 查询条件
-const queryTableParams = ref(getRiskCellData().filter(field => field.queryParameters))
+const queryTableParams = ref(getOrderCellData().filter(field => field.queryParameters))
 
-// function tts() {
-//     list().then(response => {
-//         console.log('tt ~ res:', response)
-//         pageList.value = response.data.list
-//         total.value = response.data.total
-//     })
-// }
-// tts()
 /** 查询列表 */
-function getRiskList() {
+function getOrderList() {
     loading.value = false
-    queryRiskList(queryParams).then(response => {
+    queryOrderList(queryParams).then(response => {
         pageList.value = response.data.list
         total.value = response.data.total
         loading.value = true
@@ -68,7 +60,7 @@ function handleQuery() {
     queryParams.pageNum = 1
     console.log("handleQuery ~ queryParams:", queryParams);
     // 查询列表
-    getRiskList()
+    getOrderList()
 }
 
 /** 重置-操作 */

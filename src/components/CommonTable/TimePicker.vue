@@ -1,6 +1,6 @@
 <template>
     <!--时间选择 -->
-    <el-date-picker v-model="dateValue" type="datetimerange" format="YYYY/MM/DD" value-format="YYYY-MM-DD" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+    <el-date-picker v-model="dateValue" type="daterange" format="YYYY-MM-DD" value-format="YYYY-MM-DD" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
 </template>
 <script setup name="TimePicker">
 const emit = defineEmits(['update:value'])

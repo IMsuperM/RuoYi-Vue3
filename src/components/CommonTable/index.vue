@@ -1,5 +1,5 @@
 <template>
-    <el-table ref="customTable" :class="{ empty: data.length === 0 }" :data="data" :header-cell-style="headerCellStyle" :max-height="maxHeight" :border="border" :row-key="rowKey" @selection-change="selectionChange">
+    <el-table ref="customTable" :class="{ empty: data.length === 0 }" :data="data" :header-cell-style="headerCellStyle" :max-height="maxHeight" :border="border" table-layout="auto" @selection-change="selectionChange">
         <el-table-column v-if="hasIndex" type="index" :fixed="indexFixed" :align="textAlign" :label="indexLabel"></el-table-column>
         <el-table-column v-if="hasSelection" type="selection" :fixed="selectionFixed" :align="textAlign" :selectable="setSelectAble"></el-table-column>
         <!-- 表头 -->
@@ -10,30 +10,24 @@
           <span v-else>{{ scope.row[item.scope] }}</span>
         </div>
       </template> -->
-        <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label">
+        <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" :width="customWidth(item)" show-overflow-tooltip>
             <template #default="scope">
                 <template v-if="item.show">
                     <!-- 正常表格数据 -->
                     <span v-if="item.type === 'normal'">{{ scope.row[item.prop] }}</span>
                     <!-- 插入展示为 Switch开关 -->
-                    <el-switch v-if="item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row, item)"></el-switch>
+                    <el-switch v-if="item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row)"></el-switch>
                 </template>
             </template>
         </el-table-column>
         <el-table-column v-if="hasOperation" label="操作" fixed="right" :align="textAlign" :width="operationWidth">
             <template #default="scope">
                 <el-tooltip content="修改" placement="top">
-                    <el-button type="success" plain icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
+                    <el-button link type="primary" size="small" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
                 </el-tooltip>
                 <el-tooltip content="删除" placement="top">
-                    <el-button type="danger" plain icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+                    <el-button link type="primary" size="small" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
                 </el-tooltip>
-                <!-- <el-tooltip content="数据权限" placement="top" v-if="scope.row.roleId !== 1">
-                    <el-button link type="primary" icon="CircleCheck" @click="handleDataScope(scope.row)" v-hasPermi="['system:role:edit']"></el-button>
-                </el-tooltip>
-                <el-tooltip content="分配用户" placement="top" v-if="scope.row.roleId !== 1">
-                    <el-button link type="primary" icon="User" @click="handleAuthUser(scope.row)" v-hasPermi="['system:role:edit']"></el-button>
-                </el-tooltip> -->
             </template>
             <!-- <el-col :span="1.5">
                 <el-button type="success" plain icon="Edit" @click="handleUpdate">修改</el-button>
@@ -84,7 +78,7 @@ const props = defineProps({
     // 操作列的宽度
     operationWidth: {
         type: [String, Number],
-        default: '220px',
+        default: '140px',
     },
     // 表格中内容对齐方式
     textAlign: '',
@@ -100,7 +94,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: [String, Number],
-        default: 'none',
+        default: () => '550px',
     },
     border: {
         type: Boolean,
@@ -149,9 +143,9 @@ function handleDelete(row) {
 }
 
 // switch
-function handleStatusChange(row, item) {
-    console.log('handleStatusChange ~ row:', row, item)
-    emit('handleStatusChange', row, item)
+function handleStatusChange(row) {
+    console.log('handleStatusChange ~ row:', row)
+    emit('handleStatusChange', row)
 }
 
 // 设置回显默认勾选行的方法
@@ -179,16 +173,21 @@ function setSelectAble(row, i) {
     return !selectData[this.selectDisableKey]
 }
 function customWidth(item) {
-    if (item.charLength) {
+    if (item && item.charLength) {
         return item.charLength * 14 + 20
     }
-    return 110
+    // return 100
 }
+
 </script>
 
 <style scoped lang="scss">
 $scrollbar: 8px;
-
+:deep(.el-table__cell) {
+    div.cell {
+        min-width: 120px;
+    }
+}
 :deep(.el-table--scrollable-x) {
     div {
         &.is-scrolling-right,
@@ -282,46 +281,5 @@ $scrollbar: 8px;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     position: relative;
-}
-
-.cell-popover {
-    position: fixed;
-    top: 100vh;
-    left: 0;
-    background: #303133;
-    max-width: 40vw;
-    width: max-content;
-    border-radius: 4px;
-    border: 1px solid #ebeef5;
-    padding: 10px;
-    z-index: 2000;
-    color: #fff;
-    line-height: 1.2;
-    text-align: justify;
-    font-size: 12px;
-    word-wrap: break-word;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
-    --custom-left: calc(50% - 5px);
-
-    &.show-popover {
-        opacity: 1;
-    }
-
-    &::after {
-        content: ' ';
-        display: block;
-        width: 0;
-        height: 0;
-        border-color: transparent;
-        border-style: solid;
-        border-top-color: #303133;
-        bottom: -5px;
-        border-width: 5px;
-        border-bottom-width: 0;
-        position: absolute;
-        // left: calc(50% - 5px);
-        left: var(--custom-left);
-    }
 }
 </style>

@@ -33,7 +33,7 @@ export default defineConfig(({ mode, command }) => {
             proxy: {
                 // https://cn.vitejs.dev/config/#server-proxy
                 '/api/mock': {
-                    target: 'https://10.118.13.4:80', //对mock进行代理，为了区别非mock的代理（要走mock的话 得放前面，不然优先找其他请求了）
+                    target: 'https://127.0.0.1:80', //对mock进行代理，为了区别非mock的代理（要走mock的话 得放前面，不然优先找其他请求了）
                     changeOrigin: true,
                     secure: false,
                     rewrite: path => path.replace(/^\/api/, ''),

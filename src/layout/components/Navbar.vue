@@ -6,7 +6,7 @@
 
     <div class="right-menu">
       <template v-if="appStore.device !== 'mobile'">
-        <header-search id="header-search" class="right-menu-item" />
+        <!-- <header-search id="header-search" class="right-menu-item" />
 
         <el-tooltip content="源码地址" effect="dark" placement="bottom">
           <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
@@ -14,7 +14,7 @@
 
         <el-tooltip content="文档地址" effect="dark" placement="bottom">
           <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />
-        </el-tooltip>
+        </el-tooltip> -->
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
@@ -25,14 +25,14 @@
       <div class="avatar-container">
         <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
           <div class="avatar-wrapper">
-            <img :src="userStore.avatar" class="user-avatar" />
+            <img src="~@/assets/images/user.png" class="user-avatar" />
             <el-icon><caret-bottom /></el-icon>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <router-link to="/user/profile">
+              <!-- <router-link to="/user/profile">
                 <el-dropdown-item>个人中心</el-dropdown-item>
-              </router-link>
+              </router-link> -->
               <el-dropdown-item command="setLayout" v-if="settingsStore.showSettings">
                 <span>布局设置</span>
               </el-dropdown-item>

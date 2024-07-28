@@ -10,7 +10,7 @@ const useAppStore = defineStore(
         hide: false
       },
       device: 'desktop',
-      size: Cookies.get('size') || 'default'
+      size: Cookies.get('size') || 'small' // 默认字体使用较小的
     }),
     actions: {
       toggleSideBar(withoutAnimation) {

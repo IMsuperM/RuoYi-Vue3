@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import locale from 'element-plus/es/locale/lang/zh-cn'
+import AFTableColumn from 'af-table-column'
 
 import '@/assets/styles/index.scss' // global css
 
@@ -74,11 +75,19 @@ app.component('svg-icon', SvgIcon)
 
 directive(app)
 
+// const fontRate = {
+//     CHAR_RATE: 1.1, // 汉字比率
+//     NUM_RATE: 0.65, // 数字
+//     OTHER_RATE: 0.8 // 除汉字和数字以外的字符的比率
+// }
+// const fontSize = 16
+// // 注册组件
+// app.use(AFTableColumn, { fontRate, fontSize })
+// app.use(AFTableColumn)// element table column
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {
   locale: locale,
   // 支持 large、default、small
-  size: Cookies.get('size') || 'default'
+  size: Cookies.get('size') || 'small'
 })
-
 app.mount('#app')

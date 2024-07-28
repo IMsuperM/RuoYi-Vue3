@@ -100,7 +100,7 @@ export const constantRoutes = [
                 path: '/partners',
                 component: () => import('@/views/partners/partners.vue'),
                 name: 'Partners',
-                meta: { title: '合作机构', icon: 'system' },
+                meta: { title: '合作机构', icon: 'monitor' },
             },
         ],
     },
@@ -112,10 +112,59 @@ export const constantRoutes = [
                 path: '/risk',
                 component: () => import('@/views/risk/risk.vue'),
                 name: 'Risk',
-                meta: { title: '风控订单', icon: 'system' },
+                meta: { title: '风控订单', icon: 'server' },
             },
         ],
     },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/blacklist',
+                component: () => import('@/views/blacklist/blacklist.vue'),
+                name: 'BlackList',
+                meta: { title: '黑名单', icon: 'peoples' },
+            },
+        ],
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/whitelist',
+                component: () => import('@/views/whitelist/whitelist.vue'),
+                name: 'WhiteList',
+                meta: { title: '白名单', icon: 'people' },
+            },
+        ],
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/order',
+                component: () => import('@/views/order/order.vue'),
+                name: 'Order',
+                meta: { title: '借款订单', icon: 'documentation' },
+            },
+        ],
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/statistics',
+                component: () => import('@/views/statistics/statistics.vue'),
+                name: 'Statistics',
+                meta: { title: '每日统计', icon: 'monitor' },
+            },
+        ],
+    },
+    // monitor
     ...rootRoutePage404,
 ]
 
