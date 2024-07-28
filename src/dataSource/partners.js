@@ -14,6 +14,8 @@ export function getPartnersCellData() {
         { charLength: 8, type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true, queryParameters: true, addFlg: true },
         { charLength: 6, type: 'normal', val: '', label: '余额', prop: 'balance', show: true, },
         { charLength: 6, type: 'normal', val: '', label: '信用额度 ', prop: 'creditLimit', show: true, addFlg: true, inputType: 'number',},
+        { charLength: 6, type: 'normal', val: '', label: '单笔费用 ', prop: 'callFee', show: true, addFlg: true, inputType: 'number',},
+
 
         { charLength: 12, type: 'normal', val: '', label: '合作方key', prop: 'partnerKey', show: true, },
         { charLength: 12, type: 'normal', val: '', label: '合作方秘钥', prop: 'partnerSecret', show: true, },

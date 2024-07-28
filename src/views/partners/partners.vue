@@ -36,11 +36,14 @@
         <!-- 充值 -->
         <el-dialog title="充值" v-model="rechargeOpen" @closed="rechargeReset" width="400px" style="margin-top: 20vh !important" append-to-body>
             <el-form :model="rechargeForm" ref="rechargeFormRef" :show-message="false" label-width="100px">
-                <el-form-item label="合作机构ID" prop="id">
-                    <el-input v-model="rechargeForm.id" disabled />
+                <el-form-item label="合作机构" prop="name">
+                    <el-input v-model="rechargeFormShow.name" disabled />
                 </el-form-item>
-                <el-form-item label="充值金额" prop="rechargeAmount">
-                    <el-input v-model="rechargeForm.rechargeAmount" type="number" :rule="[{ required: true }]" placeholder="请输入充值金额" />
+                <el-form-item label="合作机构编码" prop="code">
+                    <el-input v-model="rechargeFormShow.code" disabled />
+                </el-form-item>
+                <el-form-item label="充值金额" prop="rechargeAmount" :rules="[{ required: true }]" >
+                    <el-input v-model="rechargeForm.rechargeAmount" type="number" placeholder="请输入充值金额" />
                 </el-form-item>
                 <el-form-item label="备注" prop="remark">
                     <el-input v-model="rechargeForm.remark" type="textarea" placeholder="请输入备注" />
@@ -95,6 +98,11 @@ const rechargeForm = reactive({
     rechargeAmount: '',
     remark: '',
 })
+// 单纯拿来展示的字段
+const rechargeFormShow = reactive({
+    name: '',
+    code: '',
+})
 const rechargeFormRef = ref(null)
 const rechargeOpen = ref(false)
 
@@ -104,7 +112,7 @@ function getAddForm() {
     arr.map(item => {
         addForm[item.prop] = ''
         const message = item.needDictionary ? `请选择${item.label}` : `请输入${item.label}`
-        formRule[item.prop] = { ...item, rule: [{ required: true, message: message }] }
+        formRule[item.prop] = { ...item, rule: [{ required: true, message: message,  trigger: 'blur' }] }
         // { required: true, message: message, trigger: ['blur', 'change']}
     })
 }
@@ -174,6 +182,7 @@ async function submitForm() {
 /**  添加---取消按钮 关闭弹框 */
 function cancel() {
     open.value = false
+    reset()
 }
 function reset() {
     // Object.keys(addForm).map(item => (addForm[item] = ''))
@@ -186,6 +195,9 @@ function reset() {
 /** 充值--- 打开弹框 */
 function handleRecharge(row) {
     rechargeForm.id = row.id
+    rechargeFormShow.name = row.partnerName
+    rechargeFormShow.code = row.partnerCode
+
     console.log("handleRecharge ~ rechargeForm:", rechargeForm);
     rechargeOpen.value = true
 }
@@ -206,7 +218,7 @@ async function rechargeSubmitForm() {
     Object.keys(rechargeForm).map(key => (param[key] = rechargeForm[key]))
     recharge(param).then(response => {
         resetQuery() // 重新查询
-        cancel() // 关闭弹框
+        rechargeCancel() // 关闭弹框
     })
 }
 /**  充值弹框---取消按钮 关闭弹框 */

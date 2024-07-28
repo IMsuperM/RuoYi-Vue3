@@ -24,7 +24,7 @@
             <template #default="scope">
                 <el-button link type="primary" size="small" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
                 <el-button link type="primary" size="small" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
-                <el-button link type="primary" size="small" icon="Star" @click="handleRecharge(scope.row)">充值</el-button>
+                <el-button link type="primary" size="small" icon="InfoFilled" @click="handleRecharge(scope.row)">充值</el-button>
                 <!-- <el-tooltip content="修改" placement="top">
                     <el-button link type="primary" size="small" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
                 </el-tooltip>
