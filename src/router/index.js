@@ -100,7 +100,7 @@ export const constantRoutes = [
                 path: '/partners',
                 component: () => import('@/views/partners/partners.vue'),
                 name: 'Partners',
-                meta: { title: '合作机构', icon: 'monitor' },
+                meta: { title: '合作机构', icon: 'dict' },
             },
         ],
     },
