@@ -1,11 +1,10 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import createVitePlugins from './vite/plugins'
-import mkcert from "vite-plugin-mkcert";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
     const env = loadEnv(mode, process.cwd())
-  const { VITE_APP_ENV, VITE_APP_BASE_URL } = env
+    const { VITE_APP_ENV, VITE_APP_BASE_URL } = env
     return {
         __VUE_PROD_DEVTOOLS__: VITE_APP_ENV === 'production' ? false : true, // 开启测试工具
         // 部署生产环境和开发环境下的URL。
@@ -37,14 +36,13 @@ export default defineConfig(({ mode, command }) => {
                     changeOrigin: true,
                     secure: false,
                     rewrite: path => path.replace(/^\/api/, ''),
-                  },
+                },
                 '/api': {
                     target: 'https://cbc3-183-159-23-76.ngrok-free.app',
                     //  target: 'https://sumperm.com/koa2',
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, ""),
                 },
-
             }
         },
         //fix:error:stdin>:7356:1: warning: "@charset" must be the first rule in the file
@@ -63,6 +61,11 @@ export default defineConfig(({ mode, command }) => {
                     }
                 ]
             }
-        }
+        },
+        // 启用 ESLint
+        eslint: {
+            enable: true,
+            // ESLint 配置，可选
+        },
     }
 })

@@ -10,9 +10,10 @@
             <el-skeleton :rows="6" animated />
         </template>
         <!-- 分页主键 -->
-        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getRiskList" />
+        <pagination v-show="total > 10" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" :total="total" @pagination="getRiskList" />
     </div>
 </template>
+
 <script setup name="Risk">
 import { queryRiskList } from '@/api/risk'
 import { getRiskCellData } from '@/dataSource/risk'
@@ -33,27 +34,28 @@ const tableHeader = ref(getRiskCellData())
 // 表头 查询条件
 const queryTableParams = ref(getRiskCellData().filter(field => field.queryParameters))
 
-
 /** 查询列表 */
 function getRiskList() {
     loading.value = false
-    queryRiskList(queryParams).then(response => {
-        pageList.value = response.data.list
-        total.value = response.data.total
-        loading.value = true
-    }).catch(error => {
-        console.log("queryRiskList ~ error:", error);
-        loading.value = true
-    })
+    queryRiskList(queryParams)
+        .then(response => {
+            pageList.value = response.data.list
+            total.value = response.data.total
+            loading.value = true
+        })
+        .catch(error => {
+            console.log('queryRiskList ~ error:', error)
+            loading.value = true
+        })
 }
 
 /** 搜索按钮操作 */
 function handleQuery() {
     queryTableParams.value.map(q => {
-        if ((q.type === 'time')) {
+        if (q.type === 'time') {
             // 补全时间条件
-            queryParams[q.startTime] = (q.val && q.val[0] && (q.val[0]+' 00:00:00')) || ''
-            queryParams[q.endTime] = (q.val && q.val[1] && (q.val[1]+' 00:00:00')) || ''
+            queryParams[q.startTime] = (q.val && q.val[0] && q.val[0] + ' 00:00:00') || ''
+            queryParams[q.endTime] = (q.val && q.val[1] && q.val[1] + ' 00:00:00') || ''
         } else {
             queryParams[q.prop] = q.val
         }
@@ -70,7 +72,6 @@ function resetQuery() {
     })
     handleQuery()
 }
-
 
 handleQuery()
 </script>

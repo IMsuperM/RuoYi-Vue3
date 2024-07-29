@@ -5,13 +5,12 @@ import createSvgIcon from './svg-icon'
 import createCompression from './compression'
 import createSetupExtend from './setup-extend'
 import createMkcert from './mkcert'
-import createEslintPlugin from './vite-plugin-eslint'
 import createMockPlugin from './vite-plugin-mock'
 import createVisualizerPlugin from './rollup-plugin-visualizer'
 
 export default function createVitePlugins(viteEnv, isBuild = false) {
+    var a = 223
     const vitePlugins = [vue()]
-    // vitePlugins.push(createEslintPlugin())
     vitePlugins.push(createMockPlugin())
     vitePlugins.push(createAutoImport())
 	vitePlugins.push(createSetupExtend())
