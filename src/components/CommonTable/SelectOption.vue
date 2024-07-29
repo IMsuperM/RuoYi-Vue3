@@ -10,32 +10,24 @@
 </template>
 <script setup name="SelectOption">
 import { getDictionary } from '@/api/config'
-const emit = defineEmits(['update:modelValue', 'setDefaultValue'])
+const emit = defineEmits(['setDefaultValue'])
 const props = defineProps({
     // 下拉项配置
     selectConfig: {
         type: Object,
         default: () => {},
     },
-    // 绑定的值
-    selectValue: { type: String, default: () => '' },
 })
+// 使用v-model的 跟父级的双向绑定
+const slValue = defineModel()
+// 选项内容
 
-const slValue = computed({
-    get() {
-        return props.selectValue
-    },
-    set(value) {
-        emit('update:modelValue', value)
-    },
-})
 const disabled = ref(false)
 const options = ref([])
 
 // 初始化字典项 有的需要查询接口获取的
 async function initSelectOption() {
     const { selectConfig } = props
-    console.log('initSelectOption ~ selectConfig:', selectConfig)
     if (selectConfig.options) {
         options.value = selectConfig.options
         return
@@ -64,7 +56,7 @@ async function initSelectOption() {
     }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
     initSelectOption()
 })
 </script>

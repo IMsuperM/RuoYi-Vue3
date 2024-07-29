@@ -5,8 +5,6 @@
 </template>
 <script setup name="Radio">
 import { getDictionary } from '@/api/config'
-import { onBeforeMount } from 'vue'
-const emit = defineEmits(['update:redioValue'])
 const props = defineProps({
     // 下拉项配置
     selectConfig: {
@@ -15,25 +13,14 @@ const props = defineProps({
     },
     // 传入的默认中文名
     defaultName: { type: String, default: () => '' },
-    // 绑定的值
-    redioValue: { type: String, default: () => '' },
     // disable
     disabled: { type: Boolean, default: () => false},
 })
-
-const slValue = computed({
-    get() {
-        return props.redioValue
-    },
-    set(value) {
-        emit('update:redioValue', value)
-    },
-})
+// 使用v-model的 跟父级的双向绑定
+const slValue = defineModel()
+// 选项内容
 const options = ref([])
 
-function change(val) {
-    emit('update:redioValue', val)
-}
 
 // 初始化字典项 有的需要查询接口获取的
 async function initSelectOption() {
@@ -59,7 +46,6 @@ async function initSelectOption() {
         // 匹配相应的值
         const target = options.value.find(o => o.label == props.defaultName)
         target && (slValue.value = target.value)
-        emit('update:redioValue', target.value)
     }
 }
 

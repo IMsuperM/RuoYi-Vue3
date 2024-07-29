@@ -10,7 +10,7 @@
             <el-skeleton :rows="6" animated />
         </template>
         <!-- 分页主键 -->
-        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="queryOrderList" />
+        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getOrderList" />
     </div>
 </template>
 <script setup name="Order">

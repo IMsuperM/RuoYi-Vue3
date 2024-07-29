@@ -164,7 +164,6 @@ function handleQuery() {
         }
     })
     queryParams.pageNum = 1
-    console.log('handleQuery ~ queryParams:', queryParams)
     // 查询列表
     getUserList()
 }

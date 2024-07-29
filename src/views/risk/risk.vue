@@ -14,7 +14,7 @@
     </div>
 </template>
 <script setup name="Risk">
-import { list, queryRiskList } from '@/api/risk'
+import { queryRiskList } from '@/api/risk'
 import { getRiskCellData } from '@/dataSource/risk'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
@@ -33,14 +33,7 @@ const tableHeader = ref(getRiskCellData())
 // 表头 查询条件
 const queryTableParams = ref(getRiskCellData().filter(field => field.queryParameters))
 
-// function tts() {
-//     list().then(response => {
-//         console.log('tt ~ res:', response)
-//         pageList.value = response.data.list
-//         total.value = response.data.total
-//     })
-// }
-// tts()
+
 /** 查询列表 */
 function getRiskList() {
     loading.value = false
@@ -66,7 +59,6 @@ function handleQuery() {
         }
     })
     queryParams.pageNum = 1
-    console.log("handleQuery ~ queryParams:", queryParams);
     // 查询列表
     getRiskList()
 }

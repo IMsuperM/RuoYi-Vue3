@@ -19,10 +19,10 @@
                     <select-option :select-config="cardType" v-model="uploadForm.cardType" />
                 </el-form-item>
                 <el-form-item label="名单类型">
-                    <Radio :select-config="tag" :default-name="'白名单'" :disabled="true" v-model:redioValue="uploadForm.tag" />
+                    <Radio :select-config="tag" :default-name="'白名单'" :disabled="true" v-model="uploadForm.tag" />
                 </el-form-item>
                 <el-form-item label="导入方式">
-                    <Radio :select-config="uploadType" v-model:redioValue="uploadType.value" />
+                    <Radio :select-config="uploadType" v-model="uploadType.value" />
                 </el-form-item>
                 <el-form-item label="国家代码" prop="countryCode" :rules="[{ required: true, message: `请选择国家`, trigger: ['blur', 'change'] }]">
                     <select-option :select-config="countryCode" v-model="uploadForm.countryCode" />
@@ -162,7 +162,6 @@ function handleQuery() {
         }
     })
     queryParams.pageNum = 1
-    console.log('handleQuery ~ queryParams:', queryParams)
     // 查询列表
     getUserList()
 }

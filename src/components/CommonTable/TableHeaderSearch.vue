@@ -75,9 +75,6 @@ function setDefaultValue() {
     handleQuery()
 }
 
-onMounted(() => {
-    handleQuery()
-})
 </script>
 
 <style scoped lang="scss">

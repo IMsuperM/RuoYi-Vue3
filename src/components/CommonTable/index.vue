@@ -132,13 +132,11 @@ const tableColumn = computed(() => {
 
 // 修改
 function handleUpdate(row) {
-    console.log('handleUpdate ~ row:', row)
     emit('handleUpdate', row)
 }
 
 // 删除
 function handleDelete(row) {
-    console.log('handleDelete ~ row:', row)
     emit('handleDelete', row)
 }
 // c充值
@@ -148,7 +146,6 @@ function handleRecharge(row){
 
 // switch
 function handleStatusChange(row) {
-    console.log('handleStatusChange ~ row:', row)
     emit('handleStatusChange', row)
 }
 
