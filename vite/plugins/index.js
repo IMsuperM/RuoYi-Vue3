@@ -7,6 +7,8 @@ import createSetupExtend from './setup-extend'
 import createMkcert from './mkcert'
 import createEslintPlugin from './vite-plugin-eslint'
 import createMockPlugin from './vite-plugin-mock'
+import createVisualizerPlugin from './rollup-plugin-visualizer'
+
 export default function createVitePlugins(viteEnv, isBuild = false) {
     const vitePlugins = [vue()]
     // vitePlugins.push(createEslintPlugin())
@@ -15,6 +17,7 @@ export default function createVitePlugins(viteEnv, isBuild = false) {
 	vitePlugins.push(createSetupExtend())
     vitePlugins.push(createSvgIcon(isBuild))
     vitePlugins.push(createMkcert())
+    vitePlugins.push(createVisualizerPlugin())
 	isBuild && vitePlugins.push(...createCompression(viteEnv))
     return vitePlugins
 }

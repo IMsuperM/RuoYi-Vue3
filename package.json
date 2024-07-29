@@ -7,9 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "mock": "vite --mode mock --force",
     "build:prod": "vite build",
-    "build:stage": "vite build --mode staging",
     "preview": "vite preview"
   },
   "repository": {
@@ -44,6 +42,7 @@
     "eslint-plugin-vue": "^9.27.0",
     "globals": "^15.8.0",
     "prettier": "^3.3.3",
+    "rollup-plugin-visualizer": "^5.12.0",
     "sass": "1.77.5",
     "unplugin-auto-import": "0.17.6",
     "unplugin-vue-setup-extend-plus": "1.0.1",
