@@ -20,7 +20,7 @@
     "eslint.enable": true,
     // 保存时修复来自所有插件的所有可自动修复的ESlint错误（重点其实只有这一个）
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": false
+        "source.fixAll.eslint": "never"
     },
     // 在快速修复菜单中显示打开的 lint 规则文档网页
     "eslint.codeAction.showDocumentation": {
