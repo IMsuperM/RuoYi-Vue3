@@ -9,14 +9,13 @@ import createMockPlugin from './vite-plugin-mock'
 import createVisualizerPlugin from './rollup-plugin-visualizer'
 
 export default function createVitePlugins(viteEnv, isBuild = false) {
-    var a = 223
     const vitePlugins = [vue()]
     vitePlugins.push(createMockPlugin())
     vitePlugins.push(createAutoImport())
-	vitePlugins.push(createSetupExtend())
+    vitePlugins.push(createSetupExtend())
     vitePlugins.push(createSvgIcon(isBuild))
     vitePlugins.push(createMkcert())
     vitePlugins.push(createVisualizerPlugin())
-	isBuild && vitePlugins.push(...createCompression(viteEnv))
+    isBuild && vitePlugins.push(...createCompression(viteEnv))
     return vitePlugins
 }

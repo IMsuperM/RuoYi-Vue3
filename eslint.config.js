@@ -1,4 +1,4 @@
-import js from '@eslint/js'
+import eslint from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
 import * as parserVue from 'vue-eslint-parser'
 import configPrettier from 'eslint-config-prettier'
@@ -9,13 +9,13 @@ import pluginTypeScript from '@typescript-eslint/eslint-plugin'
 
 export default defineFlatConfig([
     {
-        ...js.configs.recommended,
+        ...eslint.configs.recommended,
         ignores: ['**/.*', '*.d.ts', 'public/*', 'dist/*', 'src/assets/**', 'node_modules/**', 'dist'],
         languageOptions: {
-            globals: {},
+            globals: {}
         },
         plugins: {
-            prettier: pluginPrettier,
+            prettier: pluginPrettier
         },
         rules: {
             ...configPrettier.rules,
@@ -33,27 +33,27 @@ export default defineFlatConfig([
                 'error',
                 {
                     argsIgnorePattern: '^_',
-                    varsIgnorePattern: '^_',
-                },
+                    varsIgnorePattern: '^_'
+                }
             ],
             'prettier/prettier': [
                 'error',
                 {
-                    endOfLine: 'auto',
-                },
-            ],
-        },
+                    endOfLine: 'auto'
+                }
+            ]
+        }
     },
     {
         files: ['**/*.?([cm])ts', '**/*.?([cm])tsx'],
         languageOptions: {
             parser: parserTypeScript,
             parserOptions: {
-                sourceType: 'module',
-            },
+                sourceType: 'module'
+            }
         },
         plugins: {
-            '@typescript-eslint': pluginTypeScript,
+            '@typescript-eslint': pluginTypeScript
         },
         rules: {
             ...pluginTypeScript.configs.strict.rules,
@@ -80,25 +80,25 @@ export default defineFlatConfig([
                 'error',
                 {
                     argsIgnorePattern: '^_',
-                    varsIgnorePattern: '^_',
-                },
-            ],
-        },
+                    varsIgnorePattern: '^_'
+                }
+            ]
+        }
     },
     {
         files: ['**/*.?([cm])js'],
         rules: {
             '@typescript-eslint/no-require-imports': 'off',
-            '@typescript-eslint/no-var-requires': 'off',
-        },
+            '@typescript-eslint/no-var-requires': 'off'
+        }
     },
     {
         files: ['**/*.d.ts'],
         rules: {
             'eslint-comments/no-unlimited-disable': 'off',
             'import/no-duplicates': 'off',
-            'unused-imports/no-unused-vars': 'off',
-        },
+            'unused-imports/no-unused-vars': 'off'
+        }
     },
     {
         files: ['**/*.vue'],
@@ -107,15 +107,15 @@ export default defineFlatConfig([
             parser: parserVue,
             parserOptions: {
                 ecmaFeatures: {
-                    jsx: true,
+                    jsx: true
                 },
                 extraFileExtensions: ['.vue'],
                 parser: '@typescript-eslint/parser',
-                sourceType: 'module',
-            },
+                sourceType: 'module'
+            }
         },
         plugins: {
-            vue: pluginVue,
+            vue: pluginVue
         },
         processor: pluginVue.processors['.vue'],
         rules: {
@@ -142,7 +142,7 @@ export default defineFlatConfig([
             '@typescript-eslint/ban-ts-comment': 'off',
             // 关闭对于显式声明 any 类型的检查
             '@typescript-eslint/no-explicit-any': 'off',
-            'no-unused-vars': 'off',
-        },
-    },
+            'no-unused-vars': 'off'
+        }
+    }
 ])
