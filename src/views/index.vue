@@ -1,7 +1,17 @@
 <template>
     <div class="app-container home">
-        <div class="chart-container" ref="chartLineRef"></div>
-        <div class="chart-container pie" ref="chartPieRef"></div>
+        <div class="chart-warp">
+            <div class="title">折线图</div>
+            <div class="chart-container" ref="chartLineRef"></div>
+        </div>
+        <div class="chart-warp">
+            <div class="title">饼图</div>
+            <div class="chart-container" ref="chartPieRef"></div>
+        </div>
+        <div class="chart-warp">
+            <div class="title">柱状图</div>
+            <div class="chart-container" ref="chartCategoryRef"></div>
+        </div>
     </div>
 </template>
 
@@ -10,120 +20,112 @@ import * as echarts from 'echarts'
 
 const chartLineRef = ref(null) // 折线图
 const chartPieRef = ref(null) // 附带饼图
+const chartCategoryRef = ref(null) // 柱状图
+
 let chartLine = null
 let chartPie = null
+let chartCategory = null
 
 function initChartLine() {
     chartLine = echarts.init(chartLineRef.value)
 
     // 配置项
     const options = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
         xAxis: {
             type: 'category',
+            boundaryGap: false,
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
         yAxis: {
             type: 'value'
         },
         series: [
-            {
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                type: 'line',
-                smooth: true
-            }
+            { smooth: true, name: 'Email', type: 'line', stack: 'Total', data: [120, 132, 101, 134, 90, 230, 210] },
+            { smooth: true, name: 'Union Ads', type: 'line', stack: 'Total', data: [220, 182, 191, 234, 290, 330, 310] },
+            { smooth: true, name: 'Video Ads', type: 'line', stack: 'Total', data: [150, 232, 201, 154, 190, 330, 410] },
+            { smooth: true, name: 'Direct', type: 'line', stack: 'Total', data: [320, 332, 301, 334, 390, 330, 320] },
+            { smooth: true, name: 'Search Engine', type: 'line', stack: 'Total', data: [820, 932, 901, 934, 1290, 1330, 1320] }
         ]
     }
 
     // 设置图表配置项
     chartLine.setOption(options)
 }
-function initChartPie() {
-    chartPie = echarts.init(chartPieRef.value)
-    const option = {
+
+function initChartCategory() {
+    chartCategory = echarts.init(chartCategoryRef.value)
+
+    const options = {
         legend: {},
-        tooltip: {
-            trigger: 'axis',
-            showContent: false
-        },
+        tooltip: {},
         dataset: {
             source: [
-                ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-                ['Milk Tea', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
-                ['Matcha Latte', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
-                ['Cheese Cocoa', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
-                ['Walnut Brownie', 25.2, 37.1, 41.2, 18, 33.9, 49.1]
+                ['product', '2015', '2016', '2017'],
+                ['Matcha Latte', 43.3, 85.8, 93.7],
+                ['Milk Tea', 83.1, 73.4, 55.1],
+                ['Cheese Cocoa', 86.4, 65.2, 82.5],
+                ['Walnut Brownie', 72.4, 53.9, 39.1]
             ]
         },
         xAxis: { type: 'category' },
-        yAxis: { gridIndex: 0 },
-        grid: { top: '55%' },
+        yAxis: {},
+        // Declare several bar series, each will be mapped
+        // to a column of dataset.source by default.
+        series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
+    }
+    // 设置图表配置项
+    chartCategory.setOption(options)
+}
+function initChartPie() {
+    chartPie = echarts.init(chartPieRef.value)
+    const option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
         series: [
             {
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row',
-                emphasis: { focus: 'series' }
-            },
-            {
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row',
-                emphasis: { focus: 'series' }
-            },
-            {
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row',
-                emphasis: { focus: 'series' }
-            },
-            {
-                type: 'line',
-                smooth: true,
-                seriesLayoutBy: 'row',
-                emphasis: { focus: 'series' }
-            },
-            {
+                name: 'Access From',
                 type: 'pie',
-                id: 'pie',
-                radius: '30%',
-                center: ['50%', '25%'],
+                radius: '50%',
+                data: [
+                    { value: 1048, name: 'Search Engine' },
+                    { value: 735, name: 'Direct' },
+                    { value: 580, name: 'Email' },
+                    { value: 484, name: 'Union Ads' },
+                    { value: 300, name: 'Video Ads' }
+                ],
                 emphasis: {
-                    focus: 'self'
-                },
-                label: {
-                    formatter: '{b}: {@2012} ({d}%)'
-                },
-                encode: {
-                    itemName: 'product',
-                    value: '2012',
-                    tooltip: '2012'
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 }
             }
         ]
     }
-    chartPie.on('updateAxisPointer', function (event) {
-        const xAxisInfo = event.axesInfo[0]
-        if (xAxisInfo) {
-            const dimension = xAxisInfo.value + 1
-            chartPie.setOption({
-                series: {
-                    id: 'pie',
-                    label: {
-                        formatter: '{b}: {@[' + dimension + ']} ({d}%)'
-                    },
-                    encode: {
-                        value: dimension,
-                        tooltip: dimension
-                    }
-                }
-            })
-        }
-    })
     chartPie.setOption(option)
 }
 onMounted(() => {
     initChartLine()
     initChartPie()
+    initChartCategory()
 })
 
 onUnmounted(() => {
@@ -135,15 +137,41 @@ onUnmounted(() => {
         chartPie.dispose()
         chartPie = null
     }
+    if (chartCategory) {
+        chartCategory.dispose()
+        chartCategory = null
+    }
 })
 </script>
 
 <style scoped lang="scss">
 .home {
+    padding: 0 80px;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    color: #676a6c;
+    overflow-x: hidden;
+    .chart-warp {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .title {
+            font-size: 16px;
+            padding: 10px;
+        }
+    }
     .chart-container {
-        width: 400px;
+        transform: rotateZ(360deg); // 处理0.5px边框
+        border: 0.5px solid #ccc;
+        border-radius: 4px;
+        min-width: 600px;
         height: 300px;
+        // margin-bottom: 40px;
+        // margin-right: 40px;
     }
     .pie {
         flex: 1;
@@ -172,11 +200,6 @@ onUnmounted(() => {
         padding: 0;
         margin: 0;
     }
-
-    font-family: 'open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    color: #676a6c;
-    overflow-x: hidden;
 
     ul {
         list-style-type: none;

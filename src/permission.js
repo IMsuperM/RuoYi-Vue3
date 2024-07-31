@@ -25,13 +25,7 @@ router.beforeEach((to, from, next) => {
             next()
         } else {
             // 直接添加路由
-            usePermissionStore().generateRoutesStatic().then(accessRoutes => {
-                // 根据roles权限生成可访问的路由表
-                accessRoutes.forEach(route => {
-                    if (!isHttp(route.path)) {
-                        router.addRoute(route) // 动态添加可访问路由表
-                    }
-                })
+            usePermissionStore().generateRoutesStatic().then(() => {
                 next()
             })
             // if (useUserStore().roles.length === 0) {

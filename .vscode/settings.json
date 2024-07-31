@@ -38,4 +38,6 @@
     ],
     //  显示空格
     "editor.renderWhitespace": "all",
+    // eslint 8.5版本使用扁平化配置 eslint.config.js
+    "eslint.useFlatConfig": true,
 }

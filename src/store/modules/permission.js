@@ -21,11 +21,14 @@ const usePermissionStore = defineStore(
         }),
         actions: {
             setRoutes(routes) {
-                this.addRoutes = routes
-                this.routes = constantRoutes.concat(routes)
+                // this.addRoutes = routes
+                // this.routes = constantRoutes.concat(routes)
+                this.addRoutes = constantRoutes
+                this.routes = constantRoutes
             },
             setDefaultRoutes(routes) {
-                this.defaultRoutes = constantRoutes.concat(routes)
+                // this.defaultRoutes = constantRoutes.concat(routes)
+                this.defaultRoutes = constantRoutes
             },
             setTopbarRoutes(routes) {
                 this.topbarRouters = routes
@@ -57,11 +60,11 @@ const usePermissionStore = defineStore(
             // 直接设置本地路由
             generateRoutesStatic(roles) {
                 return new Promise(resolve => {
-                    this.setRoutes(constantRoutes)
-                    this.setSidebarRouters(constantRoutes)
-                    this.setDefaultRoutes(constantRoutes)
-                    this.setTopbarRoutes(constantRoutes)
-                    resolve(constantRoutes)
+                    this.setRoutes()
+                    this.setSidebarRouters(constantRoutes) // 侧边栏路由
+                    this.setDefaultRoutes()
+                    this.setTopbarRoutes()
+                    resolve()
                 })
             }
         }

@@ -40,6 +40,11 @@ const rootRoutePage404 = [
 // 公共路由
 export const constantRoutes = [
     {
+        path: "/:pathMatch(.*)*",
+        component: () => import('@/views/error/404'),
+        hidden: true
+    },
+    {
         path: '/redirect',
         component: Layout,
         hidden: true,
@@ -163,9 +168,7 @@ export const constantRoutes = [
                 meta: { title: '每日统计', icon: 'monitor' },
             },
         ],
-    },
-    // monitor
-    ...rootRoutePage404,
+    }
 ]
 
 // 动态路由，基于用户权限动态去加载
