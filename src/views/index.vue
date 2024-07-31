@@ -17,7 +17,7 @@
 
 <script setup name="Index">
 import * as echarts from 'echarts'
-
+import { echartOne } from '@/api/index'
 const chartLineRef = ref(null) // 折线图
 const chartPieRef = ref(null) // 附带饼图
 const chartCategoryRef = ref(null) // 柱状图
@@ -29,6 +29,9 @@ let chartCategory = null
 function initChartLine() {
     chartLine = echarts.init(chartLineRef.value)
 
+    echartOne({}).then(res => {
+        console.log('echartOne ~ res:', res)
+    })
     // 配置项
     const options = {
         tooltip: {
