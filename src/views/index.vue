@@ -1,15 +1,15 @@
 <template>
     <div class="app-container home">
         <div class="chart-warp">
-            <div class="title">折线图</div>
+            <div class="title">风控调用量</div>
             <div class="chart-container" ref="chartLineRef"></div>
         </div>
-        <div class="chart-warp">
+        <!-- <div class="chart-warp">
             <div class="title">饼图</div>
             <div class="chart-container" ref="chartPieRef"></div>
-        </div>
+        </div> -->
         <div class="chart-warp">
-            <div class="title">柱状图</div>
+            <div class="title">合作方调用量</div>
             <div class="chart-container" ref="chartCategoryRef"></div>
         </div>
     </div>
@@ -17,7 +17,7 @@
 
 <script setup name="Index">
 import * as echarts from 'echarts'
-import { echartOne } from '@/api/index'
+import { echartOne, echartTwo } from '@/api/index'
 const chartLineRef = ref(null) // 折线图
 const chartPieRef = ref(null) // 附带饼图
 const chartCategoryRef = ref(null) // 柱状图
@@ -26,19 +26,33 @@ let chartLine = null
 let chartPie = null
 let chartCategory = null
 
-function initChartLine() {
+async function initChartLine() {
     chartLine = echarts.init(chartLineRef.value)
 
-    echartOne({}).then(res => {
-        console.log('echartOne ~ res:', res)
+    const res = await echartOne({})
+    const { data } = res
+    let xAxisArr = []
+    let seriesArr = []
+    let legendArr = []
+    Object.keys(data).forEach(key => {
+        legendArr.push(key)
+        xAxisArr = data[key].map(item => {
+            return item.statisticDate
+        })
+        const val = data[key].map(item => {
+            return item.num
+        })
+        const series = { smooth: true, name: key, type: 'line', data: val }
+        seriesArr.push(series)
     })
+
     // 配置项
     const options = {
         tooltip: {
             trigger: 'axis'
         },
         legend: {
-            data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+            data: legendArr
         },
         grid: {
             left: '3%',
@@ -49,44 +63,65 @@ function initChartLine() {
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: xAxisArr
         },
         yAxis: {
             type: 'value'
         },
-        series: [
-            { smooth: true, name: 'Email', type: 'line', stack: 'Total', data: [120, 132, 101, 134, 90, 230, 210] },
-            { smooth: true, name: 'Union Ads', type: 'line', stack: 'Total', data: [220, 182, 191, 234, 290, 330, 310] },
-            { smooth: true, name: 'Video Ads', type: 'line', stack: 'Total', data: [150, 232, 201, 154, 190, 330, 410] },
-            { smooth: true, name: 'Direct', type: 'line', stack: 'Total', data: [320, 332, 301, 334, 390, 330, 320] },
-            { smooth: true, name: 'Search Engine', type: 'line', stack: 'Total', data: [820, 932, 901, 934, 1290, 1330, 1320] }
-        ]
+        series: seriesArr
     }
 
     // 设置图表配置项
     chartLine.setOption(options)
 }
 
-function initChartCategory() {
+async function initChartCategory() {
     chartCategory = echarts.init(chartCategoryRef.value)
 
+    const res = await echartTwo({})
+    const { data } = res
+    const xAxisArr = []
+    const yAxisArr = []
+    data.forEach(item => {
+        xAxisArr.push(item.statisticDate)
+        yAxisArr.push(item.num)
+    })
+
     const options = {
-        legend: {},
-        tooltip: {},
-        dataset: {
-            source: [
-                ['product', '2015', '2016', '2017'],
-                ['Matcha Latte', 43.3, 85.8, 93.7],
-                ['Milk Tea', 83.1, 73.4, 55.1],
-                ['Cheese Cocoa', 86.4, 65.2, 82.5],
-                ['Walnut Brownie', 72.4, 53.9, 39.1]
-            ]
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
         },
-        xAxis: { type: 'category' },
-        yAxis: {},
-        // Declare several bar series, each will be mapped
-        // to a column of dataset.source by default.
-        series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: xAxisArr,
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '合作方调用量',
+                type: 'bar',
+                barWidth: '60%',
+                data: yAxisArr
+            }
+        ]
     }
     // 设置图表配置项
     chartCategory.setOption(options)
@@ -127,8 +162,8 @@ function initChartPie() {
 }
 onMounted(() => {
     initChartLine()
-    initChartPie()
     initChartCategory()
+    // initChartPie()
 })
 
 onUnmounted(() => {
@@ -136,14 +171,14 @@ onUnmounted(() => {
         chartLine.dispose()
         chartLine = null
     }
-    if (chartPie) {
-        chartPie.dispose()
-        chartPie = null
-    }
     if (chartCategory) {
         chartCategory.dispose()
         chartCategory = null
     }
+    // if (chartPie) {
+    //     chartPie.dispose()
+    //     chartPie = null
+    // }
 })
 </script>
 
@@ -171,10 +206,10 @@ onUnmounted(() => {
         transform: rotateZ(360deg); // 处理0.5px边框
         border: 0.5px solid #ccc;
         border-radius: 4px;
-        min-width: 600px;
-        height: 300px;
-        // margin-bottom: 40px;
-        // margin-right: 40px;
+        min-width: 850px;
+        height: 400px;
+        margin-bottom: 40px;
+        margin-top: 20px;
     }
     .pie {
         flex: 1;
