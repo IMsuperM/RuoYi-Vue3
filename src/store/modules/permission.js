@@ -63,7 +63,7 @@ const usePermissionStore = defineStore(
                     this.setRoutes()
                     this.setSidebarRouters(constantRoutes) // 侧边栏路由
                     this.setDefaultRoutes()
-                    this.setTopbarRoutes()
+                    this.setTopbarRoutes(constantRoutes)
                     resolve()
                 })
             }

@@ -81,6 +81,8 @@ const childrenMenus = computed(() => {
       if (router.children[item].parentPath === undefined) {
         if(router.path === "/") {
           router.children[item].path = "/" + router.children[item].path;
+        } else if(router.path === "") {
+            router.children[item].path = router.children[item].path;
         } else {
           if(!isHttp(router.children[item].path)) {
             router.children[item].path = router.path + "/" + router.children[item].path;
