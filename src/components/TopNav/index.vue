@@ -81,7 +81,7 @@ const childrenMenus = computed(() => {
       if (router.children[item].parentPath === undefined) {
         if(router.path === "/") {
           router.children[item].path = "/" + router.children[item].path;
-        } else if(router.path === "") {
+        } else if(router.path === "") { // 针对只有一个层级的路由
             router.children[item].path = router.children[item].path;
         } else {
           if(!isHttp(router.children[item].path)) {
