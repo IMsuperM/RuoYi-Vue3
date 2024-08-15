@@ -168,6 +168,18 @@ export const constantRoutes = [
                 meta: { title: '每日统计', icon: 'monitor' },
             },
         ],
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/pay',
+                component: () => import('@/views/pay/pay.vue'),
+                name: 'Pay',
+                meta: { title: '付款', icon: 'money' },
+            },
+        ],
     }
 ]
 

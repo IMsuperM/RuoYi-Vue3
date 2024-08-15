@@ -10,9 +10,10 @@
             <el-skeleton :rows="6" animated />
         </template>
         <!-- 分页主键 -->
-        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getOrderList" />
+        <pagination v-show="total > 10" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" :total="total" @pagination="getOrderList" />
     </div>
 </template>
+
 <script setup name="Order">
 import { queryOrderList } from '@/api/order'
 import { getOrderCellData } from '@/dataSource/order'
@@ -36,29 +37,31 @@ const queryTableParams = ref(getOrderCellData().filter(field => field.queryParam
 /** 查询列表 */
 function getOrderList() {
     loading.value = false
-    queryOrderList(queryParams).then(response => {
-        pageList.value = response.data.list
-        total.value = response.data.total
-        loading.value = true
-    }).catch(error => {
-        console.log("queryRiskList ~ error:", error);
-        loading.value = true
-    })
+    queryOrderList(queryParams)
+        .then(response => {
+            pageList.value = response.data.list
+            total.value = response.data.total
+            loading.value = true
+        })
+        .catch(error => {
+            console.log('queryRiskList ~ error:', error)
+            loading.value = true
+        })
 }
 
 /** 搜索按钮操作 */
 function handleQuery() {
     queryTableParams.value.map(q => {
-        if ((q.type === 'time')) {
+        if (q.type === 'time') {
             // 补全时间条件
-            queryParams[q.startTime] = (q.val && q.val[0] && (q.val[0]+' 00:00:00')) || ''
-            queryParams[q.endTime] = (q.val && q.val[1] && (q.val[1]+' 00:00:00')) || ''
+            queryParams[q.startTime] = (q.val && q.val[0] && q.val[0] + ' 00:00:00') || ''
+            queryParams[q.endTime] = (q.val && q.val[1] && q.val[1] + ' 00:00:00') || ''
         } else {
             queryParams[q.prop] = q.val
         }
     })
     queryParams.pageNum = 1
-    console.log("handleQuery ~ queryParams:", queryParams);
+    // console.log("handleQuery ~ queryParams:", queryParams);
     // 查询列表
     getOrderList()
 }
@@ -70,7 +73,6 @@ function resetQuery() {
     })
     handleQuery()
 }
-
 
 handleQuery()
 </script>
