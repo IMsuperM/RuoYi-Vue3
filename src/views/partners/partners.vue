@@ -10,15 +10,15 @@
             <el-skeleton :rows="6" animated />
         </template>
 
-        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getPartnersList" />
+        <pagination v-show="total > 10" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" :total="total" @pagination="getPartnersList" />
 
         <!-- 添加或修改角色配置对话框 -->
-        <el-dialog :title="title" v-model="open" @closed="reset" width="500px" style="margin-top: 20vh !important" append-to-body>
-            <el-form :model="addForm" ref="formRef" :show-message="false" label-width="100px">
+        <el-dialog v-model="open" :title="title" width="500px" style="margin-top: 20vh !important" append-to-body @closed="reset">
+            <el-form ref="formRef" :model="addForm" :show-message="false" label-width="100px">
                 <el-form-item v-for="(value, key, index) in addForm" :key="key" :label="formRule[key].label" :prop="key" :rules="formRule[key].rule">
                     <template v-if="formRule[key].needDictionary">
                         <!-- 字典类型 -->
-                        <select-option :selectConfig="formRule[key].needDictionary" v-model="addForm[key]" />
+                        <select-option v-model="addForm[key]" :selectConfig="formRule[key].needDictionary" />
                     </template>
                     <template v-else>
                         <el-input v-model="addForm[key]" :type="formRule[key].inputType || 'text'" :placeholder="`请输入${formRule[key].label}`" />
@@ -34,15 +34,15 @@
         </el-dialog>
 
         <!-- 充值 -->
-        <el-dialog title="充值" v-model="rechargeOpen" @closed="rechargeReset" width="400px" style="margin-top: 20vh !important" append-to-body>
-            <el-form :model="rechargeForm" ref="rechargeFormRef" :show-message="false" label-width="100px">
+        <el-dialog v-model="rechargeOpen" title="充值" width="400px" style="margin-top: 20vh !important" append-to-body @closed="rechargeReset">
+            <el-form ref="rechargeFormRef" :model="rechargeForm" :show-message="false" label-width="100px">
                 <el-form-item label="合作机构" prop="name">
                     <el-input v-model="rechargeFormShow.name" disabled />
                 </el-form-item>
                 <el-form-item label="合作机构编码" prop="code">
                     <el-input v-model="rechargeFormShow.code" disabled />
                 </el-form-item>
-                <el-form-item label="充值金额" prop="rechargeAmount" :rules="[{ required: true }]" >
+                <el-form-item label="充值金额" prop="rechargeAmount" :rules="[{ required: true }]">
                     <el-input v-model="rechargeForm.rechargeAmount" type="number" placeholder="请输入充值金额" />
                 </el-form-item>
                 <el-form-item label="备注" prop="remark">
@@ -65,9 +65,8 @@ import { getPartnersCellData } from '@/dataSource/partners'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
 import SelectOption from '@/components/CommonTable/SelectOption.vue'
-import { reactive } from 'vue'
 
-const { proxy } = getCurrentInstance()
+const $modal = inject('$modal')
 
 const loading = ref(false)
 // 分页数据
@@ -96,12 +95,12 @@ getAddForm()
 const rechargeForm = reactive({
     id: '',
     rechargeAmount: '',
-    remark: '',
+    remark: ''
 })
 // 单纯拿来展示的字段
 const rechargeFormShow = reactive({
     name: '',
-    code: '',
+    code: ''
 })
 const rechargeFormRef = ref(null)
 const rechargeOpen = ref(false)
@@ -112,7 +111,7 @@ function getAddForm() {
     arr.map(item => {
         addForm[item.prop] = ''
         const message = item.needDictionary ? `请选择${item.label}` : `请输入${item.label}`
-        formRule[item.prop] = { ...item, rule: [{ required: true, message: message,  trigger: 'blur' }] }
+        formRule[item.prop] = { ...item, rule: [{ required: true, message: message, trigger: 'blur' }] }
         // { required: true, message: message, trigger: ['blur', 'change']}
     })
 }
@@ -155,9 +154,9 @@ async function submitForm() {
     await formRef.value.validate(valid => {
         validateFlg = valid
         if (valid) {
-            console.log('submit!')
+            // console.log('submit!')
         } else {
-            console.log('error submit!')
+            // console.log('error submit!')
         }
     })
     if (!validateFlg) return
@@ -191,14 +190,13 @@ function reset() {
     formRef.value.resetFields()
 }
 
-
 /** 充值--- 打开弹框 */
 function handleRecharge(row) {
     rechargeForm.id = row.id
     rechargeFormShow.name = row.partnerName
     rechargeFormShow.code = row.partnerCode
 
-    console.log("handleRecharge ~ rechargeForm:", rechargeForm);
+    // console.log('handleRecharge ~ rechargeForm:', rechargeForm)
     rechargeOpen.value = true
 }
 /** 充值弹框---确认按钮 */
@@ -208,9 +206,9 @@ async function rechargeSubmitForm() {
     await rechargeFormRef.value.validate(valid => {
         validateFlg = valid
         if (valid) {
-            console.log('submit!')
+            // console.log('submit!')
         } else {
-            console.log('error submit!')
+            // console.log('error submit!')
         }
     })
     if (!validateFlg) return
@@ -238,10 +236,9 @@ function resetQuery() {
     handleQuery()
 }
 
-
 // 修改
 function handleUpdate(row) {
-    console.log('handleUpdate ~ row:', row)
+    // console.log('handleUpdate ~ row:', row)
     // 赋值数据
     Object.keys(addForm).map(key => (addForm[key] = row[key]))
     // addForm.value.map(item => {
@@ -255,16 +252,16 @@ function handleUpdate(row) {
 
 // 删除
 function handleDelete(row) {
-    console.log('handleDelete ~ row:', row)
+    // console.log('handleDelete ~ row:', row)
     const id = row.id
-    proxy.$modal
+    $modal
         .confirm('是否确认删除该数据项?')
         .then(function () {
             return deletePartner({ id })
         })
         .then(() => {
             resetQuery() // 重新查询
-            proxy.$modal.msgSuccess('删除成功')
+            $modal.msgSuccess('删除成功')
         })
         .catch(() => {})
 }
@@ -272,15 +269,15 @@ function handleDelete(row) {
 /** 状态修改 */
 function handleStatusChange(row) {
     let text = row.disabled ? '启用' : '停用'
-    console.log('handleStatusChange ~ text:', text, row.disabled)
-    proxy.$modal
+    // console.log('handleStatusChange ~ text:', text, row.disabled)
+    $modal
         .confirm(`确认要${text}吗?`)
         .then(function () {
             const prarms = { id: row.id, disabled: row.disabled }
             return updatePartnerStatus(prarms)
         })
         .then(() => {
-            proxy.$modal.msgSuccess(`${text}成功`)
+            $modal.msgSuccess(`${text}成功`)
         })
         .catch(function () {
             row.disabled = !row.disabled

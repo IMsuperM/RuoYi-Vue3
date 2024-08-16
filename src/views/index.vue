@@ -2,7 +2,7 @@
     <div class="app-container home">
         <div class="chart-warp">
             <div class="title">风控调用量</div>
-            <div class="chart-container" ref="chartLineRef"></div>
+            <div ref="chartLineRef" class="chart-container"></div>
         </div>
         <!-- <div class="chart-warp">
             <div class="title">饼图</div>
@@ -10,7 +10,7 @@
         </div> -->
         <div class="chart-warp">
             <div class="title">合作方调用量</div>
-            <div class="chart-container" ref="chartCategoryRef"></div>
+            <div ref="chartCategoryRef" class="chart-container"></div>
         </div>
     </div>
 </template>

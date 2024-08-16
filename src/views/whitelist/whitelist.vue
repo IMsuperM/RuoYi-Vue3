@@ -10,22 +10,22 @@
             <el-skeleton :rows="6" animated />
         </template>
         <!-- 分页主键 -->
-        <pagination v-show="total > 10" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getUserList" />
+        <pagination v-show="total > 10" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" :total="total" @pagination="getUserList" />
         <!-- 导入表单 -->
-        <el-dialog title="导入名单" v-model="open" @closed="reset" width="700px" style="margin-top: 20vh !important" append-to-body>
-            <el-form :model="uploadForm" :show-message="false" ref="formRef" label-width="120px">
+        <el-dialog v-model="open" title="导入名单" width="700px" style="margin-top: 20vh !important" append-to-body @closed="reset">
+            <el-form ref="formRef" :model="uploadForm" :show-message="false" label-width="120px">
                 <el-form-item label="证件类型" prop="cardType" :rules="[{ required: true, message: `请选择证件类型`, trigger: ['blur', 'change'] }]">
                     <!-- <el-form-item label="证件类型"> -->
-                    <select-option :select-config="cardType" v-model="uploadForm.cardType" />
+                    <select-option v-model="uploadForm.cardType" :select-config="cardType" />
                 </el-form-item>
                 <el-form-item label="名单类型">
-                    <Radio :select-config="tag" :default-name="'白名单'" :disabled="true" v-model="uploadForm.tag" />
+                    <Radio v-model="uploadForm.tag" :select-config="tag" :default-name="'白名单'" :disabled="true" />
                 </el-form-item>
                 <el-form-item label="导入方式">
-                    <Radio :select-config="uploadType" v-model="uploadType.value" />
+                    <Radio v-model="uploadType.value" :select-config="uploadType" />
                 </el-form-item>
                 <el-form-item label="国家代码" prop="countryCode" :rules="[{ required: true, message: `请选择国家`, trigger: ['blur', 'change'] }]">
-                    <select-option :select-config="countryCode" v-model="uploadForm.countryCode" />
+                    <select-option v-model="uploadForm.countryCode" :select-config="countryCode" />
                 </el-form-item>
                 <el-form-item label="有效期" prop="validityTime" :rules="[{ required: true, message: `请选择有效期日期`, trigger: ['blur', 'change'] }]">
                     <el-date-picker v-model="uploadForm.validityTime" type="date" value-format="YYYY-MM-DD" format="YYYY-MM-DD" placeholder="选择日期" />
@@ -51,6 +51,7 @@
         </el-dialog>
     </div>
 </template>
+
 <script setup name="WhiteList">
 import { queryUserList, uploadList, deleteRequest } from '@/api/whitelist'
 import { getWhitelistCellData } from '@/dataSource/user'
@@ -59,9 +60,7 @@ import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
 import SelectOption from '@/components/CommonTable/SelectOption.vue'
 import Radio from '@/components/CommonTable/Radio.vue'
 
-import { reactive } from 'vue'
-
-const { proxy } = getCurrentInstance()
+const $modal = inject('$modal')
 
 const loading = ref(false)
 // 分页数据
@@ -85,7 +84,7 @@ const uploadForm = reactive({
     tag: '',
     validityTime: '',
     countryCode: '',
-    remark: '',
+    remark: ''
 })
 const formRef = ref(null)
 // 导入方式
@@ -93,8 +92,8 @@ const uploadType = reactive({
     value: 'true',
     options: [
         { value: 'true', label: '单独导入' },
-        { value: '', label: '批量导入' },
-    ],
+        { value: '', label: '批量导入' }
+    ]
 })
 
 // 相关字典
@@ -110,27 +109,27 @@ const tableSelection = ref([])
 
 // 表格的勾选
 function handSelectionChange(selection) {
-    console.log('handSelectionChange ~ selection:', selection)
+    // console.log('handSelectionChange ~ selection:', selection)
     tableSelection.value = selection
 }
 // 删除操作
 function handleDelete() {
     if (tableSelection.value.length === 0) {
-        proxy.$modal.msgError('请先选择数据，再进行操作')
+        $modal.msgError('请先选择数据，再进行操作')
         return
     }
 
     const idArr = tableSelection.value.map(t => {
         return t.id
     })
-    proxy.$modal
+    $modal
         .confirm('是否确认删除所选数据项\?')
         .then(function () {
             return deleteRequest({ idList: idArr })
         })
         .then(() => {
             resetQuery() // 重新查询
-            proxy.$modal.msgSuccess('删除成功')
+            $modal.msgSuccess('删除成功')
         })
         .catch(() => {})
 }
@@ -183,20 +182,20 @@ function handleUpload() {
 /** 添加---提交按钮 */
 async function submitForm() {
     !uploadType.value && uploadRef.value.submit() // 上传组件会触发 httpRequest 方法
-    console.log('submitForm ~ submitForm:', uploadForm)
+    // console.log('submitForm ~ submitForm:', uploadForm)
 
     let validateFlg = false
     await formRef.value.validate(valid => {
         validateFlg = valid
         if (valid) {
-            console.log('submit!')
+            // console.log('submit!')
         } else {
-            console.log('error submit!')
+            // console.log('error submit!')
         }
     })
     if (!validateFlg) return
     if (!uploadType.value && uploadForm.file.length === 0) {
-        proxy.$modal.msgError('请选择文件')
+        $modal.msgError('请选择文件')
         return
     }
 
@@ -215,7 +214,7 @@ async function submitForm() {
     uploadList(formData).then(res => {
         resetQuery() // 重新查询
         cancel() // 关闭弹框
-        proxy.$modal.msgSuccess('导入成功')
+        $modal.msgSuccess('导入成功')
     })
 }
 
@@ -231,7 +230,7 @@ function reset() {
 
 //  # 覆盖原本的提交方法，我们指定一个函数，在其中完成参数的提取，
 function httpRequest(param) {
-    console.log('httpRequest ~ param:', param, fileList.value)
+    // console.log('httpRequest ~ param:', param, fileList.value)
     //把上传的文件赋值给uploadForm属性的file
     uploadForm.file = param.file
 }

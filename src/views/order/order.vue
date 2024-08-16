@@ -20,8 +20,6 @@ import { getOrderCellData } from '@/dataSource/order'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
 
-const { proxy } = getCurrentInstance()
-
 const loading = ref(false)
 // 分页数据
 const pageList = ref([])

@@ -67,6 +67,10 @@ export default defineConfig(({ mode, command }) => {
                     // })
                 ]
             }
+        },
+        // 去除日志和debuger
+        esbuild: {
+            drop: ['console', 'debugger']
         }
     }
 })

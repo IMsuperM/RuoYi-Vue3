@@ -1,9 +1,9 @@
 <template>
-    <el-form :model="queryParams" v-show="showSearch" ref="queryRef" :inline="true" label-width="138px">
+    <el-form v-show="showSearch" ref="queryRef" :model="queryParams" :inline="true" label-width="138px">
         <el-form-item v-for="query in queryParams" :key="query.prop" :label="query.label" :prop="query.prop">
             <template v-if="query.needDictionary">
                 <!-- 字典类型 -->
-                <select-option :selectConfig="query.needDictionary" v-model="query.val" @set-default-value="setDefaultValue" />
+                <select-option v-model="query.val" :selectConfig="query.needDictionary" @set-default-value="setDefaultValue" />
             </template>
             <template v-else-if="query.type === 'time'">
                 <!-- 日期类型 -->
@@ -25,6 +25,7 @@
         <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 </template>
+
 <script setup neam="TableHeaderSearch">
 import SelectOption from './SelectOption.vue'
 import TimePicker from './TimePicker.vue'
@@ -34,14 +35,14 @@ const props = defineProps({
     // 查询条件数据
     queryParams: {
         type: Array,
-        default: () => [],
+        default: () => []
     },
     // 是否显示表头的 添加按钮
     addAciton: { type: Boolean, default: () => false },
     // 是否显示表头的 导入按钮
     uploadAciton: { type: Boolean, default: () => false },
     // 是否显示表头的 删除按钮
-    deletAciton: { type: Boolean, default: () => false },
+    deletAciton: { type: Boolean, default: () => false }
 })
 const showSearch = ref(true) // 是否显示查询条件
 
@@ -74,7 +75,6 @@ function handleDelete() {
 function setDefaultValue() {
     handleQuery()
 }
-
 </script>
 
 <style scoped lang="scss">
