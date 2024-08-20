@@ -17,8 +17,8 @@
                     <span v-if="item.type === 'normal'">{{ scope.row[item.prop] }}</span>
                     <!-- 布尔值 数据 -->
                     <template v-if="item.type === 'boolean'">
-                        <el-tag v-if="scope.row[item.prop]" type="primary">{{ formatBoolean(item, scope.row[item.prop]) }}</el-tag>
-                        <el-tag v-else type="warning">{{ formatBoolean(item, scope.row[item.prop]) }}</el-tag>
+                        <el-tag v-if="formatBoolean(item, scope.row[item.prop])" type="primary">{{ formatBoolean(item, scope.row[item.prop]) }}</el-tag>
+                        <span v-else></span>
                     </template>
                     <!-- 插入展示为 Switch开关 -->
                     <el-switch v-if="item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row)"></el-switch>
@@ -132,9 +132,7 @@ const tableSelection = ref([])
 const formatBoolean = computed(() => {
     return function (item, val) {
         const labelArr = item.needDictionary.options
-        // 强转一下布尔值
-        const bool = (val && true) || false
-        const target = labelArr.find(l => l.value === bool)
+        const target = labelArr.find(l => l.value === val)
         return (target && target.label) || ''
     }
 })
