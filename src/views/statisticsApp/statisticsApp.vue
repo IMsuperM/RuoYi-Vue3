@@ -33,7 +33,7 @@ function getWhatsappList() {
     loading.value = false
     queryWhatsappStatistic(queryParams)
         .then(response => {
-            pageList.value = response.data?.list
+            pageList.value = response.data
             loading.value = true
         })
         .catch(error => {

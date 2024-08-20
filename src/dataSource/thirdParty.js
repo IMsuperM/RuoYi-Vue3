@@ -27,28 +27,28 @@ export function getThirdStatisticsCellData() {
 export function getThirdPartyCellData() {
     return [
         { type: 'normal', val: '', label: 'id', prop: 'id' },
-        { type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true },
-        { type: 'normal', val: '', label: '合作方编码', prop: 'partnerCode', show: true },
-        { type: 'normal', val: '', label: '国家', prop: 'country', show: true },
+        { charLength: 8, type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true },
+        { charLength: 8, type: 'normal', val: '', label: '合作方编码', prop: 'partnerCode', show: true },
+        { charLength: 8, type: 'normal', val: '', label: '国家', prop: 'country', show: true },
 
-        { type: 'normal', val: '', label: '调用订单号', prop: 'recordNo', show: true, queryParameters: true },
-        { type: 'normal', val: '', label: '调用类型', prop: 'notifyType', show: true, queryParameters: true, needDictionary: { code: 'notifyType', codeName: 'desc', codeValue: 'name', filterable: true } },
-        { charLength: 14, type: 'normal', val: '', label: '请求参数', prop: 'requestData', show: true },
+        { charLength: 14, type: 'normal', val: '', label: '调用订单号', prop: 'recordNo', show: true, queryParameters: true },
+        { charLength: 8, type: 'normal', val: '', label: '调用类型', prop: 'notifyType', show: true, queryParameters: true, needDictionary: { code: 'notifyType', codeName: 'desc', codeValue: 'name', filterable: true } },
+        { charLength: 16, type: 'normal', val: '', label: '请求参数', prop: 'requestData', show: true },
         { charLength: 10, type: 'normal', val: '', label: '请求时间', prop: 'notifyTime', show: true },
-        { charLength: 14, type: 'normal', val: '', label: '返回参数', prop: 'responseData', show: true },
+        { charLength: 16, type: 'normal', val: '', label: '返回参数', prop: 'responseData', show: true },
         { charLength: 10, type: 'normal', val: '', label: '返回时间', prop: 'responseTime', show: true },
 
         {
             type: 'boolean',
             val: '',
-            label: '调动状态',
+            label: '调用状态',
             prop: 'notifyStatus',
             show: true,
             queryParameters: true,
             needDictionary: {
                 options: [
-                    { value: true, label: '是' },
-                    { value: false, label: '否' }
+                    { value: true, label: '调用成功' },
+                    { value: false, label: '调用失败' }
                 ]
             }
         },
@@ -62,19 +62,3 @@ export function getThirdPartyCellData() {
         { type: 'time', val: '', label: '调用时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime' }
     ]
 }
-
-// id	string	统计日期
-// partnerCode	string	合作方编码
-// partnerName	string	合作方名称
-// country	string	国家
-// recordNo	string	调用订单号
-// notifyType	string	调用类型
-// requestData	string	请求参数
-// notifyTime	string	请求时间
-// responseData	string	返回参数
-// responseTime	string	返回时间
-// notifyStatus	string	调动状态 true-成功 false-失败
-// callFee	string	调用费用
-// remark	string	备注
-// createTime	string	创建时间
-// updateTime	string	更新时间

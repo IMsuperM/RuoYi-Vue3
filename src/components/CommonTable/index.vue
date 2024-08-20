@@ -17,8 +17,8 @@
                     <span v-if="item.type === 'normal'">{{ scope.row[item.prop] }}</span>
                     <!-- 布尔值 数据 -->
                     <template v-if="item.type === 'boolean'">
-                        <el-tag v-if="scope.row[item.prop]" type="primary">是</el-tag>
-                        <el-tag v-else type="warning">否</el-tag>
+                        <el-tag v-if="scope.row[item.prop]" type="primary">{{ formatBoolean(item, scope.row[item.prop]) }}</el-tag>
+                        <el-tag v-else type="warning">{{ formatBoolean(item, scope.row[item.prop]) }}</el-tag>
                     </template>
                     <!-- 插入展示为 Switch开关 -->
                     <el-switch v-if="item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row)"></el-switch>
@@ -45,7 +45,6 @@
 </template>
 
 <script setup name="CommonTable">
-
 const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleRecharge', 'handleStatusChange', 'handSelectionChange'])
 const props = defineProps({
     // 表头数据
@@ -129,6 +128,16 @@ const props = defineProps({
     setSelecTable: Function
 })
 const tableSelection = ref([])
+
+const formatBoolean = computed(() => {
+    return function (item, val) {
+        const labelArr = item.needDictionary.options
+        // 强转一下布尔值
+        const bool = (val && true) || false
+        const target = labelArr.find(l => l.value === bool)
+        return (target && target.label) || ''
+    }
+})
 
 // 过滤表头列
 const tableColumn = computed(() => {

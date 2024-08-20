@@ -33,7 +33,7 @@ function getThirdStatisticList() {
     loading.value = false
     queryThirdStatistic(queryParams)
         .then(response => {
-            pageList.value = response.data?.list
+            pageList.value = response.data
             loading.value = true
         })
         .catch(error => {
