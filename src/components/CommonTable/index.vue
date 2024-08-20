@@ -15,6 +15,11 @@
                 <template v-if="item.show">
                     <!-- 正常表格数据 -->
                     <span v-if="item.type === 'normal'">{{ scope.row[item.prop] }}</span>
+                    <!-- 布尔值 数据 -->
+                    <template v-if="item.type === 'boolean'">
+                        <el-tag v-if="scope.row[item.prop]" type="primary">是</el-tag>
+                        <el-tag v-else type="warning">否</el-tag>
+                    </template>
                     <!-- 插入展示为 Switch开关 -->
                     <el-switch v-if="item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row)"></el-switch>
                 </template>
@@ -38,90 +43,90 @@
         </el-table-column>
     </el-table>
 </template>
-<script setup name="CommonTable">
-const { proxy } = getCurrentInstance()
 
-const emit = defineEmits(['handleUpdate', 'handleDelete','handleRecharge', 'handleStatusChange', 'handSelectionChange'])
+<script setup name="CommonTable">
+
+const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleRecharge', 'handleStatusChange', 'handSelectionChange'])
 const props = defineProps({
     // 表头数据
     tableHeader: {
         type: Array,
-        default: () => [],
+        default: () => []
     },
     // 表格数据
     data: {
         type: Array,
-        default: () => [],
+        default: () => []
     },
     // 表头样式
     headerCellStyle: {
         type: Object,
         default: () => {
             return { color: '#909399', background: '#F7F8FA', 'font-weight': 'normal' }
-        },
+        }
     },
     hasSelection: {
         type: Boolean,
-        default: false,
+        default: false
     },
     hasIndex: {
         type: Boolean,
-        default: false,
+        default: false
     },
     // 列表序号表头
     indexLabel: String,
     // 是否有表格最右边操作列
     hasOperation: {
         type: Boolean,
-        default: true,
+        default: true
     },
     // 操作列的宽度
     operationWidth: {
         type: [String, Number],
-        default: '180px',
+        default: '180px'
     },
     // 表格中内容对齐方式
     textAlign: '',
     // 选中项回显数组
     defaultSelection: {
         type: Array,
-        default: () => [],
+        default: () => []
     },
     // 勾选时匹配的标识key
     selectKey: {
         type: String,
-        default: 'id',
+        default: 'id'
     },
     maxHeight: {
         type: [String, Number],
-        default: () => '550px',
+        default: () => '550px'
     },
     border: {
         type: Boolean,
-        default: false,
+        default: false
     },
     // 设置勾选禁用时 表格数据做判断的key
     selectDisableKey: {
         type: String,
-        default: '',
+        default: ''
     },
     tipPlacement: {
         type: String,
-        default: 'top',
+        default: 'top'
     },
     indexFixed: {
         type: [String, Boolean],
-        default: false,
+        default: false
     },
     selectionFixed: {
         type: [String, Boolean],
-        default: true,
+        default: true
     },
     rowKey: {
         type: String,
-        default: '',
+        default: ''
     },
-    setSelecTable: Function,
+    setSelecTable: Function
 })
 const tableSelection = ref([])
 
@@ -140,7 +145,7 @@ function handleDelete(row) {
     emit('handleDelete', row)
 }
 // c充值
-function handleRecharge(row){
+function handleRecharge(row) {
     emit('handleRecharge', row)
 }
 
@@ -153,7 +158,6 @@ function handleStatusChange(row) {
 function handSelectionChange(s) {
     emit('handSelectionChange', s)
 }
-
 
 // 设置回显默认勾选行的方法
 function setDefaultSelection(arr = this.defaultSelection) {
@@ -181,7 +185,6 @@ function customWidth(item) {
     }
     // return 100
 }
-
 </script>
 
 <style scoped lang="scss">

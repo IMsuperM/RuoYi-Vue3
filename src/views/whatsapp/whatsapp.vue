@@ -13,8 +13,8 @@
 </template>
 
 <script setup name="Statistics">
-import { queryStatisticsList } from '@/api/statistics'
-import { getStatisticsCellData } from '@/dataSource/statistics'
+import { queryWhatsappList } from '@/api/whatsapp'
+import { getWhatsAppCellData } from '@/dataSource/whatsApp'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
 
@@ -22,22 +22,22 @@ const loading = ref(false)
 // 分页数据
 const pageList = ref([])
 // 分页查询条件
-const queryParams = reactive({ })
+const queryParams = reactive({})
 // 表格数据
-const tableHeader = ref(getStatisticsCellData())
+const tableHeader = ref(getWhatsAppCellData())
 // 表头 查询条件
-const queryTableParams = ref(getStatisticsCellData().filter(field => field.queryParameters))
+const queryTableParams = ref(getWhatsAppCellData().filter(field => field.queryParameters))
 
 /** 查询列表 */
-function getStatisticsList() {
+function getWhatsappList() {
     loading.value = false
-    queryStatisticsList(queryParams)
+    queryWhatsappList(queryParams)
         .then(response => {
-            pageList.value = response.data
+            pageList.value = response.data?.list
             loading.value = true
         })
         .catch(error => {
-            console.log('queryStatisticsList ~ error:', error)
+            console.log('queryWhatsappList ~ error:', error)
             loading.value = true
         })
 }
@@ -55,7 +55,7 @@ function handleQuery() {
     })
     // console.log('handleQuery ~ queryParams:', queryParams)
     // 查询列表
-    getStatisticsList()
+    getWhatsappList()
 }
 
 /** 重置-操作 */

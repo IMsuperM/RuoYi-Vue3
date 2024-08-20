@@ -1,4 +1,3 @@
-
 import request from '@/utils/request'
 const BASE_URL = '/pp-risk/manage'
 
@@ -12,7 +11,8 @@ export function getDictionary(type) {
         partner: '/constant/partner/list', // 合作方列表
         tag: '/constant/user-tag/enum', // 名单类型
         cardType: '/constant/user-card-type/enum', // 证件类型
-        orderStatus:"/constant/loan-order-status/enum", // 订单状态
+        orderStatus: '/constant/loan-order-status/enum', // 订单状态
+        notifyType: '/constant/api-service-notify-enum/enum', // 调用类型
     }
     const url = dictionaryMap[type]
     return request({

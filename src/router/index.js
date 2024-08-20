@@ -29,18 +29,18 @@ const rootRoutePage404 = [
     {
         path: '/404',
         component: () => import('@/views/error/404'),
-        hidden: true,
+        hidden: true
     },
     {
         path: '/:pathMatch(.*)',
-        redirect: '/404',
-    },
+        redirect: '/404'
+    }
 ]
 
 // 公共路由
 export const constantRoutes = [
     {
-        path: "/:pathMatch(.*)*",
+        path: '/:pathMatch(.*)*',
         component: () => import('@/views/error/404'),
         hidden: true
     },
@@ -51,24 +51,24 @@ export const constantRoutes = [
         children: [
             {
                 path: '/redirect/:path(.*)',
-                component: () => import('@/views/redirect/index.vue'),
-            },
-        ],
+                component: () => import('@/views/redirect/index.vue')
+            }
+        ]
     },
     {
         path: '/login',
         component: () => import('@/views/login'),
-        hidden: true,
+        hidden: true
     },
     {
         path: '/register',
         component: () => import('@/views/register'),
-        hidden: true,
+        hidden: true
     },
     {
         path: '/401',
         component: () => import('@/views/error/401'),
-        hidden: true,
+        hidden: true
     },
     {
         path: '',
@@ -79,9 +79,9 @@ export const constantRoutes = [
                 path: '/index',
                 component: () => import('@/views/index'),
                 name: 'Index',
-                meta: { title: '首页', icon: 'dashboard', affix: true },
-            },
-        ],
+                meta: { title: '首页', icon: 'dashboard', affix: true }
+            }
+        ]
     },
     {
         path: '/user',
@@ -93,9 +93,9 @@ export const constantRoutes = [
                 path: 'profile',
                 component: () => import('@/views/system/user/profile/index'),
                 name: 'Profile',
-                meta: { title: '个人中心', icon: 'user' },
-            },
-        ],
+                meta: { title: '个人中心', icon: 'user' }
+            }
+        ]
     },
     {
         path: '',
@@ -105,9 +105,9 @@ export const constantRoutes = [
                 path: '/partners',
                 component: () => import('@/views/partners/partners.vue'),
                 name: 'Partners',
-                meta: { title: '合作机构', icon: 'dict' },
-            },
-        ],
+                meta: { title: '合作机构', icon: 'dict' }
+            }
+        ]
     },
     {
         path: '',
@@ -117,9 +117,9 @@ export const constantRoutes = [
                 path: '/risk',
                 component: () => import('@/views/risk/risk.vue'),
                 name: 'Risk',
-                meta: { title: '风控订单', icon: 'server' },
-            },
-        ],
+                meta: { title: '风控订单', icon: 'server' }
+            }
+        ]
     },
     {
         path: '',
@@ -129,9 +129,9 @@ export const constantRoutes = [
                 path: '/blacklist',
                 component: () => import('@/views/blacklist/blacklist.vue'),
                 name: 'BlackList',
-                meta: { title: '黑名单', icon: 'peoples' },
-            },
-        ],
+                meta: { title: '黑名单', icon: 'peoples' }
+            }
+        ]
     },
     {
         path: '',
@@ -141,9 +141,9 @@ export const constantRoutes = [
                 path: '/whitelist',
                 component: () => import('@/views/whitelist/whitelist.vue'),
                 name: 'WhiteList',
-                meta: { title: '白名单', icon: 'people' },
-            },
-        ],
+                meta: { title: '白名单', icon: 'people' }
+            }
+        ]
     },
     {
         path: '',
@@ -153,9 +153,9 @@ export const constantRoutes = [
                 path: '/order',
                 component: () => import('@/views/order/order.vue'),
                 name: 'Order',
-                meta: { title: '借款订单', icon: 'documentation' },
-            },
-        ],
+                meta: { title: '借款订单', icon: 'documentation' }
+            }
+        ]
     },
     {
         path: '',
@@ -165,21 +165,57 @@ export const constantRoutes = [
                 path: '/statistics',
                 component: () => import('@/views/statistics/statistics.vue'),
                 name: 'Statistics',
-                meta: { title: '每日统计', icon: 'monitor' },
-            },
-        ],
+                meta: { title: '每日统计', icon: 'monitor' }
+            }
+        ]
     },
     {
         path: '',
         component: Layout,
         children: [
             {
-                path: '/pay',
-                component: () => import('@/views/pay/pay.vue'),
-                name: 'Pay',
-                meta: { title: '付款', icon: 'money' },
-            },
-        ],
+                path: '/whatsapp',
+                component: () => import('@/views/whatsapp/whatsapp.vue'),
+                name: 'Whatsapp',
+                meta: { title: 'whatsapp调用记录', icon: 'wechat' }
+            }
+        ]
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/statisticsApp',
+                component: () => import('@/views/statisticsApp/statisticsApp.vue'),
+                name: 'StatisticsApp',
+                meta: { title: 'whatsapp调用统计', icon: 'druid' }
+            }
+        ]
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/thirdParty',
+                component: () => import('@/views/thirdParty/thirdParty.vue'),
+                name: 'ThirdParty',
+                meta: { title: '三方平台调用记录', icon: 'redis-list' }
+            }
+        ]
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/statisticsParty',
+                component: () => import('@/views/statisticsParty/statisticsParty.vue'),
+                name: 'StatisticsParty',
+                meta: { title: '三方平台调用统计', icon: 'logininfor' }
+            }
+        ]
     }
 ]
 
@@ -195,9 +231,9 @@ export const dynamicRoutes = [
                 path: 'role/:userId(\\d+)',
                 component: () => import('@/views/system/user/authRole'),
                 name: 'AuthRole',
-                meta: { title: '分配角色', activeMenu: '/system/user' },
-            },
-        ],
+                meta: { title: '分配角色', activeMenu: '/system/user' }
+            }
+        ]
     },
     {
         path: '/system/role-auth',
@@ -209,9 +245,9 @@ export const dynamicRoutes = [
                 path: 'user/:roleId(\\d+)',
                 component: () => import('@/views/system/role/authUser'),
                 name: 'AuthUser',
-                meta: { title: '分配用户', activeMenu: '/system/role' },
-            },
-        ],
+                meta: { title: '分配用户', activeMenu: '/system/role' }
+            }
+        ]
     },
     {
         path: '/system/dict-data',
@@ -223,9 +259,9 @@ export const dynamicRoutes = [
                 path: 'index/:dictId(\\d+)',
                 component: () => import('@/views/system/dict/data'),
                 name: 'Data',
-                meta: { title: '字典数据', activeMenu: '/system/dict' },
-            },
-        ],
+                meta: { title: '字典数据', activeMenu: '/system/dict' }
+            }
+        ]
     },
     {
         path: '/monitor/job-log',
@@ -237,9 +273,9 @@ export const dynamicRoutes = [
                 path: 'index/:jobId(\\d+)',
                 component: () => import('@/views/monitor/job/log'),
                 name: 'JobLog',
-                meta: { title: '调度日志', activeMenu: '/monitor/job' },
-            },
-        ],
+                meta: { title: '调度日志', activeMenu: '/monitor/job' }
+            }
+        ]
     },
     {
         path: '/tool/gen-edit',
@@ -251,10 +287,10 @@ export const dynamicRoutes = [
                 path: 'index/:tableId(\\d+)',
                 component: () => import('@/views/tool/gen/editTable'),
                 name: 'GenEdit',
-                meta: { title: '修改生成配置', activeMenu: '/tool/gen' },
-            },
-        ],
-    },
+                meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+            }
+        ]
+    }
 ]
 
 export const asyncRouter = [
@@ -269,7 +305,7 @@ export const asyncRouter = [
             title: '系统管理',
             icon: 'system',
             noCache: false,
-            link: null,
+            link: null
         },
         children: [
             {
@@ -281,8 +317,8 @@ export const asyncRouter = [
                     title: '用户管理',
                     icon: 'user',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Role',
@@ -293,8 +329,8 @@ export const asyncRouter = [
                     title: '角色管理',
                     icon: 'peoples',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Menu',
@@ -305,8 +341,8 @@ export const asyncRouter = [
                     title: '菜单管理',
                     icon: 'tree-table',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Dept',
@@ -317,8 +353,8 @@ export const asyncRouter = [
                     title: '部门管理',
                     icon: 'tree',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Post',
@@ -329,8 +365,8 @@ export const asyncRouter = [
                     title: '岗位管理',
                     icon: 'post',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Dict',
@@ -341,8 +377,8 @@ export const asyncRouter = [
                     title: '字典管理',
                     icon: 'dict',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Config',
@@ -353,8 +389,8 @@ export const asyncRouter = [
                     title: '参数设置',
                     icon: 'edit',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Notice',
@@ -365,8 +401,8 @@ export const asyncRouter = [
                     title: '通知公告',
                     icon: 'message',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Log',
@@ -379,7 +415,7 @@ export const asyncRouter = [
                     title: '日志管理',
                     icon: 'log',
                     noCache: false,
-                    link: null,
+                    link: null
                 },
                 children: [
                     {
@@ -391,8 +427,8 @@ export const asyncRouter = [
                             title: '操作日志',
                             icon: 'form',
                             noCache: false,
-                            link: null,
-                        },
+                            link: null
+                        }
                     },
                     {
                         name: 'Logininfor',
@@ -403,12 +439,12 @@ export const asyncRouter = [
                             title: '登录日志',
                             icon: 'logininfor',
                             noCache: false,
-                            link: null,
-                        },
-                    },
-                ],
-            },
-        ],
+                            link: null
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         name: 'Monitor',
@@ -421,7 +457,7 @@ export const asyncRouter = [
             title: '系统监控',
             icon: 'monitor',
             noCache: false,
-            link: null,
+            link: null
         },
         children: [
             {
@@ -433,8 +469,8 @@ export const asyncRouter = [
                     title: '在线用户',
                     icon: 'online',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Job',
@@ -445,8 +481,8 @@ export const asyncRouter = [
                     title: '定时任务',
                     icon: 'job',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Druid',
@@ -457,8 +493,8 @@ export const asyncRouter = [
                     title: '数据监控',
                     icon: 'druid',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Server',
@@ -469,8 +505,8 @@ export const asyncRouter = [
                     title: '服务监控',
                     icon: 'server',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Cache',
@@ -481,8 +517,8 @@ export const asyncRouter = [
                     title: '缓存监控',
                     icon: 'redis',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'CacheList',
@@ -493,10 +529,10 @@ export const asyncRouter = [
                     title: '缓存列表',
                     icon: 'redis-list',
                     noCache: false,
-                    link: null,
-                },
-            },
-        ],
+                    link: null
+                }
+            }
+        ]
     },
     {
         name: 'Tool',
@@ -509,7 +545,7 @@ export const asyncRouter = [
             title: '系统工具',
             icon: 'tool',
             noCache: false,
-            link: null,
+            link: null
         },
         children: [
             {
@@ -521,8 +557,8 @@ export const asyncRouter = [
                     title: '表单构建',
                     icon: 'build',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Gen',
@@ -533,8 +569,8 @@ export const asyncRouter = [
                     title: '代码生成',
                     icon: 'code',
                     noCache: false,
-                    link: null,
-                },
+                    link: null
+                }
             },
             {
                 name: 'Swagger',
@@ -545,11 +581,11 @@ export const asyncRouter = [
                     title: '系统接口',
                     icon: 'swagger',
                     noCache: false,
-                    link: null,
-                },
-            },
-        ],
-    },
+                    link: null
+                }
+            }
+        ]
+    }
 ]
 
 const router = createRouter({
@@ -561,7 +597,7 @@ const router = createRouter({
         } else {
             return { top: 0 }
         }
-    },
+    }
 })
 
 export default router
