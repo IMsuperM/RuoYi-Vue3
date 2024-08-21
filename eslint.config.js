@@ -15,7 +15,7 @@ export default defineFlatConfig([
             globals: {}
         },
         plugins: {
-            // prettier: pluginPrettier
+            prettier: pluginPrettier
         },
         rules: {
             // ...configPrettier.rules,
