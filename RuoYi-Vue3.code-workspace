@@ -1,10 +1,50 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
+    "folders": [
+        {
+            "path": "."
+        }
     ],
     "settings": {
-        "eslint.useFlatConfig": true
+        "editor.detectIndentation": false,
+        // 重新设定tabsize
+        "editor.tabSize": 4,
+        "editor.fontSize": 12,
+        "editor.lineHeight": 20,
+        // #每次保存的时候自动格式化
+        "editor.formatOnSave": false,
+        // #每次保存的时候将代码按eslint格式进行修复
+        // "editor.codeActionsOnSave": {
+        //     "source.fixAll.eslint": "explicit"
+        // },
+        // 代码提示。许多插件都有代码提示，代码缩写提示优先显示在最上方
+        // "editor.snippetSuggestions": "top",
+        // 粘贴后的内容, 是否自动格式化
+        "editor.formatOnPaste": false,
+        "editor.autoClosingBrackets": "always",
+        "editor.tabCompletion": "on",
+        "editor.cursorBlinking": "smooth",
+        //  显示空格
+        "editor.renderWhitespace": "all",
+        // 保存时修复来自所有插件的所有可自动修复的ESlint错误（重点其实只有这一个）
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "never"
+        },
+        "eslint.enable": true,
+        // 在快速修复菜单中显示打开的 lint 规则文档网页
+        "eslint.codeAction.showDocumentation": {
+            "enable": true
+        },
+        // 启用ESLint作为已验证文件的格式化程序。
+        "eslint.format.enable": true,
+        // eslint规则对以下几种后缀文件生效. 默认为["javascript", "javascriptreact"]
+        "eslint.validate": [
+            "javascript",
+            "javascriptreact",
+            "html",
+            "typescript",
+            "typescriptreact"
+        ],
+        // eslint 8.5版本使用扁平化配置 eslint.config.js
+        "eslint.useFlatConfig": true,
     }
 }

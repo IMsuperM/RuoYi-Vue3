@@ -15,11 +15,11 @@ export default defineFlatConfig([
             globals: {}
         },
         plugins: {
-            prettier: pluginPrettier
+            // prettier: pluginPrettier
         },
         rules: {
-            ...configPrettier.rules,
-            ...pluginPrettier.configs.recommended.rules,
+            // ...configPrettier.rules,
+            // ...pluginPrettier.configs.recommended.rules,
             // 禁止使用 var
             'no-var': 'error',
             // 禁止使用 console
@@ -34,12 +34,6 @@ export default defineFlatConfig([
                 {
                     argsIgnorePattern: '^_',
                     varsIgnorePattern: '^_'
-                }
-            ],
-            'prettier/prettier': [
-                'error',
-                {
-                    endOfLine: 'auto'
                 }
             ]
         }

@@ -1,7 +1,6 @@
-/** @type {import("prettier").Config} */
 export default {
     // 一行最多多少个字符
-    printWidth: 150000,
+    printWidth: 800,
     // 指定每个缩进级别的空格数
     tabWidth: 4,
     // 使用制表符而不是空格缩进行
@@ -33,11 +32,13 @@ export default {
     proseWrap: 'preserve',
     // 指定HTML文件的全局空格敏感度 css\strict\ignore
     htmlWhitespaceSensitivity: 'ignore',
+    // 使括号在同一行显示
+    bracketSameLine: true,
     // Vue文件脚本和样式标签缩进
     vueIndentScriptAndStyle: false,
     //在 windows 操作系统中换行符通常是回车 (CR) 加换行分隔符 (LF)，也就是回车换行(CRLF)，
     //然而在 Linux 和 Unix 中只使用简单的换行分隔符 (LF)。
     //对应的控制字符为 "\n" (LF) 和 "\r\n"(CRLF)。auto意为保持现有的行尾
     // 换行符使用 lf 结尾是 可选值"<auto|lf|crlf|cr>"
-    endOfLine: 'auto',
+    endOfLine: 'auto'
 }

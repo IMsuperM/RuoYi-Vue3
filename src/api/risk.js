@@ -1,4 +1,3 @@
-
 import request from '@/utils/request'
 const BASE_URL = '/pp-risk/manage' // /pp-risk/manage/partner/create
 

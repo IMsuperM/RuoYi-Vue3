@@ -17,11 +17,13 @@
     "editor.autoClosingBrackets": "always",
     "editor.tabCompletion": "on",
     "editor.cursorBlinking": "smooth",
-    "eslint.enable": true,
+    //  显示空格
+    "editor.renderWhitespace": "all",
     // 保存时修复来自所有插件的所有可自动修复的ESlint错误（重点其实只有这一个）
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "never"
     },
+    "eslint.enable": true,
     // 在快速修复菜单中显示打开的 lint 规则文档网页
     "eslint.codeAction.showDocumentation": {
         "enable": true
@@ -36,8 +38,6 @@
         "typescript",
         "typescriptreact"
     ],
-    //  显示空格
-    "editor.renderWhitespace": "all",
     // eslint 8.5版本使用扁平化配置 eslint.config.js
     "eslint.useFlatConfig": true,
 }

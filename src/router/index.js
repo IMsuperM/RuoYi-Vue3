@@ -201,7 +201,7 @@ export const constantRoutes = [
                 path: '/thirdParty',
                 component: () => import('@/views/thirdParty/thirdParty.vue'),
                 name: 'ThirdParty',
-                meta: { title: '三方平台调用记录', icon: 'redis-list' }
+                meta: { title: '合作方调用记录', icon: 'redis-list' }
             }
         ]
     },
@@ -213,7 +213,7 @@ export const constantRoutes = [
                 path: '/statisticsParty',
                 component: () => import('@/views/statisticsParty/statisticsParty.vue'),
                 name: 'StatisticsParty',
-                meta: { title: '三方平台调用统计', icon: 'logininfor' }
+                meta: { title: '合作方调用统计', icon: 'logininfor' }
             }
         ]
     }
