@@ -5,7 +5,7 @@
 </template>
 
 <script setup name="Radio">
-import { getDictionary } from '@/api/config'
+import useSelectDictStore from '@/store/modules/selectDictionary'
 const props = defineProps({
     // 下拉项配置
     selectConfig: {
@@ -30,12 +30,11 @@ async function initSelectOption() {
     }
     if (selectConfig.code) {
         try {
-            const res = await getDictionary(selectConfig.code)
-            const { data } = res
-            if (data) {
-                options.value = data.map(d => {
-                    return { label: d[selectConfig.codeName], value: d[selectConfig.codeValue] }
-                })
+            // 数据字典从缓存里获取
+            let optionsDic = useSelectDictStore().getDict(selectConfig.code)
+            if (!optionsDic) optionsDic = await useSelectDictStore().setDict(selectConfig.code)
+            if (optionsDic) {
+                options.value = optionsDic
             }
         } catch (error) {
             options.value = []

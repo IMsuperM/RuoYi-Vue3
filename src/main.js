@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-
+import {selectDict} from '@/utils/dict'
 import Cookies from 'js-cookie'
 
 import ElementPlus from 'element-plus'
@@ -81,3 +81,6 @@ app.use(ElementPlus, {
   size: Cookies.get('size') || 'small'
 })
 app.mount('#app')
+
+// 查询所有的字典
+selectDict()

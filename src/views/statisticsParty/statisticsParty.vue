@@ -66,7 +66,9 @@ function resetQuery() {
     handleQuery()
 }
 
-handleQuery()
+onMounted(() => {
+    handleQuery()
+})
 </script>
 
 <style scoped lang="scss">

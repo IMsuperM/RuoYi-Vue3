@@ -10,12 +10,16 @@
 //  三方平台调用统计
 export function getThirdStatisticsCellData() {
     return [
-        { type: 'normal', val: '', label: '统计日期', prop: 'statisticDate', show: true },
-        { type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true },
+        { charLength: 8, type: 'normal', val: '', label: '统计日期', prop: 'statisticDate', show: true },
+        { charLength: 8, type: 'normal', val: '', label: '合作方名称', prop: 'partnerName', show: true },
         { type: 'normal', val: '', label: '合作方编码', prop: 'partnerCode', show: true },
-        { type: 'normal', val: '', label: '国家', prop: 'country', show: true },
-        { type: 'normal', val: '', label: 'whatsapp调用数', prop: 'whatsAppRecordCount', show: true },
-        { type: 'normal', val: '', label: 'whatsapp调用费用', prop: 'whatsAppRecordCallFee', show: true },
+        { charLength: 8, type: 'normal', val: '', label: '国家', prop: 'country', show: true },
+        { charLength: 8, type: 'normal', val: '', label: 'whatsapp调用数', prop: 'whatsAppRecordCount', show: true },
+        { charLength: 8, type: 'normal', val: '', label: 'whatsapp计费次数', prop: 'whatsAppRecordFeeCount', show: true },
+        { charLength: 8, type: 'normal', val: '', label: 'whatsapp调用费用', prop: 'whatsAppRecordCallFee', show: true },
+        { charLength: 8, type: 'normal', val: '', label: 'api白名单调用次数', prop: 'apiWhiteRecordCount', show: true },
+        { charLength: 8, type: 'normal', val: '', label: 'api白名单计费次数', prop: 'apiWhiteRecordFeeCount', show: true },
+        { charLength: 8, type: 'normal', val: '', label: 'api白名单调用费用', prop: 'apiWhiteRecordCallFee', show: true },
 
         { type: 'normal', val: '', label: '调用类型', prop: 'notifyType', queryParameters: true, needDictionary: { code: 'notifyType', codeName: 'desc', codeValue: 'name', filterable: true } },
         { type: 'normal', val: '', label: '合作方名称', prop: 'partnerId', queryParameters: true, needDictionary: { code: 'partner', codeName: 'desc', codeValue: 'name', filterable: true } },
@@ -33,6 +37,8 @@ export function getThirdPartyCellData() {
 
         { charLength: 14, type: 'normal', val: '', label: '调用订单号', prop: 'recordNo', show: true, queryParameters: true },
         { charLength: 8, type: 'normal', val: '', label: '调用类型', prop: 'notifyType', show: true, queryParameters: true, needDictionary: { code: 'notifyType', codeName: 'desc', codeValue: 'name', filterable: true } },
+        { charLength: 6, type: 'normal', val: '', label: '请求IP', prop: 'requestIp', show: true },
+
         { charLength: 16, type: 'normal', val: '', label: '请求参数', prop: 'requestData', show: true },
         { charLength: 10, type: 'normal', val: '', label: '请求时间', prop: 'notifyTime', show: true },
         { charLength: 16, type: 'normal', val: '', label: '返回参数', prop: 'responseData', show: true },
@@ -49,6 +55,19 @@ export function getThirdPartyCellData() {
                 options: [
                     { value: true, label: '调用成功' },
                     { value: false, label: '调用失败' }
+                ]
+            }
+        },
+        {
+            type: 'boolean',
+            val: '',
+            label: '是否计费',
+            prop: 'callFeeSign',
+            show: true,
+            needDictionary: {
+                options: [
+                    { value: true, label: '是' },
+                    { value: false, label: '否' }
                 ]
             }
         },

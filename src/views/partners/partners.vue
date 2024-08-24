@@ -4,7 +4,7 @@
         <table-header-search :query-params="queryTableParams" :add-aciton="true" @handle-query="handleQuery" @handle-add="handleAdd" @reset-query="resetQuery" />
         <!-- 表格数据 -->
         <template v-if="loading">
-            <common-table :data="partnersList" :tableHeader="tableHeader" :border="true" @handle-recharge="handleRecharge" @handle-update="handleUpdate" @handle-delete="handleDelete" @handle-status-change="handleStatusChange" />
+            <common-table :data="partnersList" :tableHeader="tableHeader" :border="true" @handle-edit="handleEdit" @handle-recharge="handleRecharge" @handle-update="handleUpdate" @handle-delete="handleDelete" @handle-status-change="handleStatusChange" />
         </template>
         <template v-else>
             <el-skeleton :rows="6" animated />
@@ -56,6 +56,11 @@
                 </div>
             </template>
         </el-dialog>
+
+        <!-- 费用配置 -->
+        <el-dialog v-model="feeConfig" title="费用配置" width="60%" style="height: 60%; overflow: hidden; margin-top: 20vh !important">
+            <EditTable v-if="feeConfig" :partnerId="feeConfigId" @cancel="feeConfig = false" />
+        </el-dialog>
     </div>
 </template>
 
@@ -65,6 +70,7 @@ import { getPartnersCellData } from '@/dataSource/partners'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
 import SelectOption from '@/components/CommonTable/SelectOption.vue'
+import EditTable from './editTable.vue'
 
 const $modal = inject('$modal')
 
@@ -104,6 +110,16 @@ const rechargeFormShow = reactive({
 })
 const rechargeFormRef = ref(null)
 const rechargeOpen = ref(false)
+
+//  费用配置部分
+const feeConfig = ref(false)
+const feeConfigId = ref('')
+
+// 费用配置
+function handleEdit(row) {
+    feeConfigId.value = row.id
+    feeConfig.value = true
+}
 
 // 获取添加表单的字段 及相关规则
 function getAddForm() {
@@ -283,6 +299,14 @@ function handleStatusChange(row) {
             row.disabled = !row.disabled
         })
 }
-
-handleQuery()
+onMounted(() => {
+    handleQuery()
+})
 </script>
+
+<style lang="scss" scoped>
+:deep(.el-dialog__body) {
+    height: 100%;
+    padding-bottom: 40px;
+}
+</style>

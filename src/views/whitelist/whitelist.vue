@@ -235,7 +235,9 @@ function httpRequest(param) {
     uploadForm.file = param.file
 }
 
-handleQuery()
+onMounted(() => {
+    handleQuery()
+})
 </script>
 
 <style scoped lang="scss">

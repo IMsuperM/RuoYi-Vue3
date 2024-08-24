@@ -71,5 +71,7 @@ function resetQuery() {
     handleQuery()
 }
 
-handleQuery()
+onMounted(() => {
+    handleQuery()
+})
 </script>

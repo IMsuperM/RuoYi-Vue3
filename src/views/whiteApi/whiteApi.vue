@@ -9,35 +9,41 @@
         <template v-else>
             <el-skeleton :rows="8" animated />
         </template>
+         <!-- 分页主键 -->
+         <pagination v-show="total > 10" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" :total="total" @pagination="getWhiteApiList" />
+
     </div>
 </template>
 
-<script setup name="Statistics">
-import { queryWhatsappStatistic } from '@/api/whatsapp'
-import { getStatisticAppCellData } from '@/dataSource/whatsApp'
+<script setup name="WhiteApi">
+import { queryWhiteApiList } from '@/api/whiteApi'
+import { getWhiteApiCellData } from '@/dataSource/whiteApi'
 import CommonTable from '@/components/CommonTable'
 import TableHeaderSearch from '@/components/CommonTable/TableHeaderSearch'
 
 const loading = ref(false)
 // 分页数据
 const pageList = ref([])
+// 分页控件使用的总条目
+const total = ref(0)
 // 分页查询条件
-const queryParams = reactive({})
+const queryParams = reactive({ pageNum: 1, pageSize: 10 })
 // 表格数据
-const tableHeader = ref(getStatisticAppCellData())
+const tableHeader = ref(getWhiteApiCellData())
 // 表头 查询条件
-const queryTableParams = ref(getStatisticAppCellData().filter(field => field.queryParameters))
+const queryTableParams = ref(getWhiteApiCellData().filter(field => field.queryParameters))
 
 /** 查询列表 */
-function getWhatsappList() {
+function getWhiteApiList() {
     loading.value = false
-    queryWhatsappStatistic(queryParams)
+    queryWhiteApiList(queryParams)
         .then(response => {
-            pageList.value = response.data
+            pageList.value = response.data?.list
+            total.value = response.data?.total
             loading.value = true
         })
         .catch(error => {
-            console.log('queryWhatsappStatistic ~ error:', error)
+            console.log('queryWhiteApiList ~ error:', error)
             loading.value = true
         })
 }
@@ -54,8 +60,9 @@ function handleQuery() {
         }
     })
     // console.log('handleQuery ~ queryParams:', queryParams)
+    queryParams.pageNum = 1
     // 查询列表
-    getWhatsappList()
+    getWhiteApiList()
 }
 
 /** 重置-操作 */

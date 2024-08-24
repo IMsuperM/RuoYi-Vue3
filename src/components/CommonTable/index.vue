@@ -17,8 +17,7 @@
                     <span v-if="item.type === 'normal'">{{ scope.row[item.prop] }}</span>
                     <!-- 布尔值 数据 -->
                     <template v-if="item.type === 'boolean'">
-                        <el-tag v-if="formatBoolean(item, scope.row[item.prop])" type="primary">{{ formatBoolean(item, scope.row[item.prop]) }}</el-tag>
-                        <span v-else></span>
+                        <Tag :item="item" :val="scope.row[item.prop]" />
                     </template>
                     <!-- 插入展示为 Switch开关 -->
                     <el-switch v-if="item.type === 'switch'" v-model="scope.row[item.prop]" :active-value="true" :inactive-value="false" @change="handleStatusChange(scope.row)"></el-switch>
@@ -30,6 +29,7 @@
                 <el-button link type="primary" size="small" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
                 <el-button link type="primary" size="small" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
                 <el-button link type="primary" size="small" icon="InfoFilled" @click="handleRecharge(scope.row)">充值</el-button>
+                <el-button link type="primary" size="small" icon="EditPen" @click="handleEdit(scope.row)">配置</el-button>
                 <!-- <el-tooltip content="修改" placement="top">
                     <el-button link type="primary" size="small" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
                 </el-tooltip>
@@ -45,7 +45,9 @@
 </template>
 
 <script setup name="CommonTable">
-const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleRecharge', 'handleStatusChange', 'handSelectionChange'])
+import useSelectDictStore from '@/store/modules/selectDictionary'
+import Tag from './Tag.vue'
+const emit = defineEmits(['handleUpdate', 'handleDelete', 'handleRecharge', 'handleEdit', 'handleStatusChange', 'handSelectionChange'])
 const props = defineProps({
     // 表头数据
     tableHeader: {
@@ -82,7 +84,7 @@ const props = defineProps({
     // 操作列的宽度
     operationWidth: {
         type: [String, Number],
-        default: '180px'
+        default: '240px'
     },
     // 表格中内容对齐方式
     textAlign: '',
@@ -127,15 +129,6 @@ const props = defineProps({
     },
     setSelecTable: Function
 })
-const tableSelection = ref([])
-
-const formatBoolean = computed(() => {
-    return function (item, val) {
-        const labelArr = item.needDictionary.options
-        const target = labelArr.find(l => l.value === val)
-        return (target && target.label) || ''
-    }
-})
 
 // 过滤表头列
 const tableColumn = computed(() => {
@@ -154,6 +147,10 @@ function handleDelete(row) {
 // c充值
 function handleRecharge(row) {
     emit('handleRecharge', row)
+}
+// 配置
+function handleEdit(row) {
+    emit('handleEdit', row)
 }
 
 // switch

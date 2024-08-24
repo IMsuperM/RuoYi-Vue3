@@ -1,4 +1,3 @@
-
 import request from '@/utils/request'
 const BASE_URL = '/pp-risk/manage' // /pp-risk/manage/partner/create
 // 合作机构  创建合作机构信息
@@ -50,6 +49,24 @@ export function queryPartnerList(params) {
 export function recharge(params) {
     return request({
         url: `${BASE_URL}/partner/recharge`,
+        method: 'post',
+        data: params
+    })
+}
+
+// 合作机构 获取合作方费用配置
+export function feeConfig(params) {
+    return request({
+        url: `${BASE_URL}/partner/fee-config/get`,
+        method: 'post',
+        data: params
+    })
+}
+
+// 合作机构 更新接口调用费用
+export function feeConfigUpdate(params) {
+    return request({
+        url: `${BASE_URL}/partner/fee-config/update`,
         method: 'post',
         data: params
     })

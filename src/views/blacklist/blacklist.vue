@@ -233,8 +233,9 @@ function httpRequest(param) {
     //把上传的文件赋值给uploadForm属性的file
     uploadForm.file = param.file
 }
-
-handleQuery()
+onMounted(() => {
+    handleQuery()
+})
 </script>
 
 <style scoped lang="scss">

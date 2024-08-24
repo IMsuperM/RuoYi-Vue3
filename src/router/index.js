@@ -216,6 +216,42 @@ export const constantRoutes = [
                 meta: { title: '合作方调用统计', icon: 'logininfor' }
             }
         ]
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/whiteApi',
+                component: () => import('@/views/whiteApi/whiteApi.vue'),
+                name: 'WhiteApi',
+                meta: { title: '白名单api调用记录', icon: 'skill' }
+            }
+        ]
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/statisticsWhiteApi',
+                component: () => import('@/views/statisticsWhiteApi/statisticsWhiteApi.vue'),
+                name: 'StatisticsWhiteApi',
+                meta: { title: '白名单api调用统计', icon: 'log' }
+            }
+        ]
+    },
+    {
+        path: '',
+        component: Layout,
+        children: [
+            {
+                path: '/amount',
+                component: () => import('@/views/amount/amount.vue'),
+                name: 'Amount',
+                meta: { title: '余额变更记录', icon: 'money' }
+            }
+        ]
     }
 ]
 

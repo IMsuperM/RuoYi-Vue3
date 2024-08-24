@@ -8,43 +8,45 @@
  * addFlg 是否是属于 添加操作 字段
  */
 
-// whatsapp记录
-export function getWhatsAppCellData() {
+// 白名单api调用记录
+export function getWhiteApiCellData() {
     return [
         { type: 'normal', val: '', label: 'id', prop: 'id' },
         { charLength: 12, type: 'normal', val: '', label: '调用订单号', prop: 'notifyNo', show: true, queryParameters: true },
-        { charLength: 12, type: 'normal', val: '', label: '调用手机号', prop: 'number', show: true, queryParameters: true },
+        { charLength: 12, type: 'normal', val: '', label: '手机号', prop: 'phone', show: true, queryParameters: true },
+        { charLength: 14, type: 'normal', val: '', label: '调用国家', prop: 'country', show: true },
+
         { charLength: 14, type: 'normal', val: '', label: '请求参数', prop: 'requestData', show: true },
-        { charLength: 14, type: 'normal', val: '', label: '请求路径', prop: 'requestUrl', show: true },
         { charLength: 10, type: 'normal', val: '', label: '请求时间', prop: 'requestTime', show: true },
+        { charLength: 14, type: 'normal', val: '', label: '请求路径', prop: 'requestUrl', show: true },
         { charLength: 14, type: 'normal', val: '', label: '返回参数', prop: 'responseData', show: true },
         { charLength: 10, type: 'normal', val: '', label: '返回时间', prop: 'responseTime', show: true },
         {
             charLength: 8,
             type: 'boolean',
             val: '',
-            label: '是否有效手机号',
-            prop: 'validSign',
+            label: '调用状态',
+            prop: 'notifyStatus',
             show: true,
             queryParameters: true,
             needDictionary: {
                 options: [
-                    { value: true, label: '是' },
-                    { value: false, label: '否' }
+                    { value: false, label: '调用失败' },
+                    { value: true, label: '调用成功' }
                 ]
             }
         },
         {
             type: 'boolean',
             val: '',
-            label: '是否注册',
-            prop: 'onWhatsapp',
+            label: '调用结果',
+            prop: 'result',
             show: true,
             queryParameters: true,
             needDictionary: {
                 options: [
-                    { value: true, label: '是' },
-                    { value: false, label: '否' }
+                    { value: false, label: '未命中' },
+                    { value: true, label: '命中' }
                 ]
             }
         },
@@ -52,19 +54,20 @@ export function getWhatsAppCellData() {
         { type: 'normal', val: '', label: '备注', prop: 'remark', show: true },
         { charLength: 10, type: 'normal', val: '', label: '创建时间', prop: 'createTime', show: true },
         { charLength: 10, type: 'normal', val: '', label: '更新时间', prop: 'updateTime', show: true },
-        { type: 'time', val: '', label: '时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime' }
+        { type: 'time', val: '', label: '调用时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime' }
     ]
 }
 
-// whatsapp统计
-export function getStatisticAppCellData() {
+// 白名单api调用统计
+export function getStatisticWhiteApiCellData() {
     return [
         { type: 'normal', val: '', label: 'id', prop: 'id' },
         { charLength: 10, type: 'normal', val: '', label: '统计时间', prop: 'statisticDate', show: true },
         { type: 'normal', val: '', label: '调用次数', prop: 'callCount', show: true },
-        { type: 'normal', val: '', label: '注册whatsapp数', prop: 'onWhatsappCount', show: true },
-        { type: 'normal', val: '', label: '未注册whatsapp数', prop: 'notOnWhatsappCount', show: true },
-        { type: 'normal', val: '', label: '注册率', prop: 'onWhatsappRate', show: true },
+        { type: 'normal', val: '', label: '成功数', prop: 'successCount', show: true },
+        { type: 'normal', val: '', label: '命中数', prop: 'whiteSignCount', show: true },
+        { type: 'normal', val: '', label: '未命中数', prop: 'notWhiteSignCount', show: true },
+        { type: 'normal', val: '', label: '命中率', prop: 'whiteRate',  show: true },
         { type: 'time', val: '', label: '统计时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime' }
     ]
 }
