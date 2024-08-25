@@ -1,5 +1,5 @@
 <template>
-    <el-tag v-if="label" :type="type ? 'primary':'warning'">{{ label }}</el-tag>
+    <el-tag v-if="label" :type="type ? 'success' : 'danger'">{{ label }}</el-tag>
     <span v-else>{{ label }}</span>
 </template>
 
@@ -9,7 +9,7 @@ const props = defineProps({
     // 下拉项配置
     item: {
         type: Object,
-        default: () => {}
+        default: () => { }
     },
     val: {
         type: String,
@@ -29,7 +29,7 @@ const formatBoolean = async (item, val) => {
     }
 
     const target = labelArr.find(l => l.value === val || l.label === val)
-    if(target)type.value = target.value === true || target.label === '充值' ? true : false
+    if (target) type.value = target.value === true || target.label === '充值' ? true : false
     label.value = (target && target.label) || ''
 }
 
