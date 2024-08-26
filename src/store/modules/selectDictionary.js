@@ -33,10 +33,15 @@ const useSelectDictStore = defineStore('selectDict', {
             const options = data.map(d => {
                 return { label: d.desc, value: d.name }
             })
-            this.selectDict.push({
-                key: _key,
-                value: options
-            })
+            let target = this.selectDict.find(item => item.key === _key)
+            if (target) {
+                target.value = options
+            } else {
+                this.selectDict.push({
+                    key: _key,
+                    value: options
+                })
+            }
             return options
         },
         // 清空字典
