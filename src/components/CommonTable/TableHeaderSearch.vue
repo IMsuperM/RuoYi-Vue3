@@ -7,7 +7,7 @@
             </template>
             <template v-else-if="query.type === 'time'">
                 <!-- 日期类型 -->
-                <time-picker v-model="query.val" />
+                <time-picker v-model="query.val" :initDay="query.initDay || 0" />
             </template>
             <template v-else>
                 <el-input v-model="query.val" :placeholder="`请输入${query.label}`" clearable style="width: 240px" />

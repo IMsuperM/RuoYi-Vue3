@@ -9,6 +9,8 @@
         <template v-else>
             <el-skeleton :rows="8" animated />
         </template>
+        <!-- 分页主键 -->
+        <pagination v-show="total > 10" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" :total="total" @pagination="getThirdPartyList" />
     </div>
 </template>
 
@@ -22,7 +24,9 @@ const loading = ref(false)
 // 分页数据
 const pageList = ref([])
 // 分页查询条件
-const queryParams = reactive({})
+const queryParams = reactive({ pageNum: 1, pageSize: 10 })
+// 分页控件使用的总条目
+const total = ref(0)
 // 表格数据
 const tableHeader = ref(getThirdPartyCellData())
 // 表头 查询条件
@@ -34,6 +38,7 @@ function getThirdPartyList() {
     queryThirdPartyList(queryParams)
         .then(response => {
             pageList.value = response.data?.list
+            total.value = response.data?.total
             loading.value = true
         })
         .catch(error => {
@@ -53,6 +58,7 @@ function handleQuery() {
             queryParams[q.prop] = q.val
         }
     })
+    queryParams.pageNum = 1
     // console.log('handleQuery ~ queryParams:', queryParams)
     // 查询列表
     getThirdPartyList()

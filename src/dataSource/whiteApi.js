@@ -6,6 +6,8 @@
  * queryParameters 是否作为查询条件
  * needDictionary  需要查询字典的 字段; filterable- 是否需要字典下拉项 可搜索匹配
  * addFlg 是否是属于 添加操作 字段
+ * type--time, 配置时间控件，initDay: 7 ,时间段 默认近七天
+ *
  */
 
 // 白名单api调用记录
@@ -68,6 +70,6 @@ export function getStatisticWhiteApiCellData() {
         { type: 'normal', val: '', label: '命中数', prop: 'whiteSignCount', show: true },
         { type: 'normal', val: '', label: '未命中数', prop: 'notWhiteSignCount', show: true },
         { type: 'normal', val: '', label: '命中率', prop: 'whiteRate',  show: true },
-        { type: 'time', val: '', label: '统计时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime' }
+        { type: 'time', val: '', label: '统计时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime', initDay: 7 }
     ]
 }

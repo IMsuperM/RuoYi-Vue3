@@ -4,7 +4,7 @@ const useSelectDictStore = defineStore('selectDict', {
     // 开启数据持久化
     persist: {
         enabled: true,
-        detached: true // 设置订阅与组件分离
+        detached: true // 设置订阅与组件分离， 为true时，组件卸载时，不会被删除
     },
     state: () => ({
         selectDict: new Array()

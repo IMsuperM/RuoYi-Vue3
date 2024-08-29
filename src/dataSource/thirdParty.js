@@ -5,6 +5,7 @@
  * queryParameters 是否作为查询条件
  * needDictionary  需要查询字典的 字段; filterable- 是否需要字典下拉项 可搜索匹配
  * addFlg 是否是属于 添加操作 字段
+ * type--time, 配置时间控件，initDay: 7 ,时间段 默认近七天
  */
 
 //  三方平台调用统计
@@ -24,7 +25,7 @@ export function getThirdStatisticsCellData() {
         { type: 'normal', val: '', label: '调用类型', prop: 'notifyType', queryParameters: true, needDictionary: { code: 'notifyType', codeName: 'desc', codeValue: 'name', filterable: true } },
         { type: 'normal', val: '', label: '合作方名称', prop: 'partnerId', queryParameters: true, needDictionary: { code: 'partner', codeName: 'desc', codeValue: 'name', filterable: true } },
         { type: 'normal', val: '', label: '国家代码', prop: 'countryCode', queryParameters: true, needDictionary: { code: 'countryCode', codeName: 'desc', codeValue: 'name', filterable: true } },
-        { type: 'time', val: '', label: '查询时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime' }
+        { type: 'time', val: '', label: '统计时间', prop: 'statisticDate', queryParameters: true, startTime: 'startTime', endTime: 'endTime', initDay: 7 }
     ]
 }
 //  三方平台调用记录
